@@ -13,13 +13,14 @@ class Go_Fish:
         self.player1_hand = self.deal_cards()
         self.show_player_hand(self.player1)
         self.lay_down_pairs(self.player1_hand)
+        self.show_player_hand(self.player1)
 
-        self.player2_hand = self.deal_cards()
-        self.show_player_hand(self.player2)
-        self.lay_down_pairs(self.player2_hand)
+        # self.player2_hand = self.deal_cards()
+        # self.show_player_hand(self.player2)
+        # self.lay_down_pairs(self.player2_hand)
 
         print("Let's play Go-Fish!")
-        self.player_turn(self.player1, self.player2)
+        # self.player_turn(self.player1, self.player2)
     
     def deal_cards(self):
         hand = []
@@ -44,16 +45,13 @@ class Go_Fish:
     
     def lay_down_pairs(self, hand):
         #loop through the player's hand and "lay down" (i.e. remove) any pairs from their hand
-        card_value_dict = {}
         dupe_cards_to_remove = []
-        count = 2
-        for card in hand:
-            if card.string_val == str(count):
-                card_value_dict[card.string_val] += 1
-            count += 1
+        for i in range(len(hand)):
+            for j in range(i+1, len(hand)):
+                if hand[i].string_val == hand[j].string_val:
+                    print(f"hand[i]: {hand[i].string_val}   hand[j]: {hand[j].string_val}")
+                    # dupe_cards_to_remove.append(hand[j])
 
-        print(card_value_dict)
-        print(dupe_cards_to_remove)
         return self
 
     def player_turn(self, current_player, other_player):
