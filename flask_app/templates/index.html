@@ -10,51 +10,133 @@
 </head>
 <body class="bg-neutral-950 text-stone-200 w-3/4 mx-auto">
     
-    <button class="rounded bg-blue-500 hover:bg-blue-600 my-2 p-2">
-        <a href="/start_game">New Game</a>
+    <button class="rounded bg-gray-500 hover:bg-gray-600 my-2 p-2">
+        <a href="/clear">Clear Game</a>
     </button>
+    {% if "player_hand" not in session %}
+        <button class="rounded bg-blue-500 hover:bg-blue-600 my-2 p-2">
+            <a href="/start_game">New Game</a>
+        </button>
+    {% else %}
+        <button class="rounded bg-pink-500 hover:bg-pink-600 my-2 p-2">
+            <a href="/pairs">Lay Down Pairs</a>
+        </button>
+    {% endif %}
 
     <div class="flex gap-5 mt-4">
         <div class="basis-1/4">
             {% if "player_hand" in session %}
-                <p class="text-lg font-bold">Your hand:</p>
+                <p class="text-lg font-bold">Your hand ({{session["player_hand"]|length}} cards):</p>
                 {% for each_card in session["player_hand"] %}
-                    <p> {{each_card.face_value}} of {{each_card.suit}} </p>
+                    {% if each_card.suit == "♦" %}
+                        <p> {{each_card.face_value}} <span class="text-red-700">{{each_card.suit}}</span> </p>
+                    {% elif each_card.suit == "♥" %}
+                        <p> {{each_card.face_value}} <span class="text-rose-600">{{each_card.suit}}</span> </p>
+                    {% elif each_card.suit == "♣" %}
+                        <p> {{each_card.face_value}} <span class="text-gray-500">{{each_card.suit}}</span> </p>
+                    {% else %}
+                        <p> {{each_card.face_value}} <span class="text-zinc-700">{{each_card.suit}}</span> </p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if "player_pairs" in session %}
+                {% if (session["player_pairs"]|length / 2)|int == 1  %}
+                    <p class="text-lg font-bold mt-6">Your collected pairs ({{(session["player_pairs"]|length / 2)|int}} pair):</p>
+                {% else %}
+                    <p class="text-lg font-bold mt-6">Your collected pairs ({{(session["player_pairs"]|length / 2)|int}} pairs):</p>
+                {% endif %}
+                {% for each_card in session["player_pairs"] %}
+                    {% if each_card.suit == "♦" %}
+                        <p> {{each_card.face_value}} <span class="text-red-700">{{each_card.suit}}</span> </p>
+                    {% elif each_card.suit == "♥" %}
+                        <p> {{each_card.face_value}} <span class="text-rose-600">{{each_card.suit}}</span> </p>
+                    {% elif each_card.suit == "♣" %}
+                        <p> {{each_card.face_value}} <span class="text-gray-500">{{each_card.suit}}</span> </p>
+                    {% else %}
+                        <p> {{each_card.face_value}} <span class="text-zinc-700">{{each_card.suit}}</span> </p>
+                    {% endif %}
                 {% endfor %}
             {% endif %}
         </div>
         <div class="basis-1/4">
             {% if "computer_hand" in session %}
-                <p class="text-lg font-bold">Computer hand:</p>
+                <p class="text-lg font-bold">Computer hand ({{(session["computer_hand"]|length)}} cards):</p>
                 {% for each_card in session["computer_hand"] %}
-                    <p> {{each_card.face_value}} of {{each_card.suit}} </p>
+                    {% if each_card.suit == "♦" %}
+                        <p> {{each_card.face_value}} <span class="text-red-700">{{each_card.suit}}</span> </p>
+                    {% elif each_card.suit == "♥" %}
+                        <p> {{each_card.face_value}} <span class="text-rose-600">{{each_card.suit}}</span> </p>
+                    {% elif each_card.suit == "♣" %}
+                        <p> {{each_card.face_value}} <span class="text-gray-500">{{each_card.suit}}</span> </p>
+                    {% else %}
+                        <p> {{each_card.face_value}} <span class="text-zinc-700">{{each_card.suit}}</span> </p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if "computer_pairs" in session %}
+                {% if (session["computer_pairs"]|length / 2)|int == 1 %}
+                    <p class="text-lg font-bold mt-6">Computer's collected pairs ({{(session["computer_pairs"]|length / 2)|int}} pair):</p>
+                {% else %}
+                    <p class="text-lg font-bold mt-6">Computer's collected pairs ({{(session["computer_pairs"]|length / 2)|int}} pairs):</p>
+                {% endif %}
+                {% for each_card in session["computer_pairs"] %}
+                    {% if each_card.suit == "♦" %}
+                        <p> {{each_card.face_value}} <span class="text-red-700">{{each_card.suit}}</span> </p>
+                    {% elif each_card.suit == "♥" %}
+                        <p> {{each_card.face_value}} <span class="text-rose-600">{{each_card.suit}}</span> </p>
+                    {% elif each_card.suit == "♣" %}
+                        <p> {{each_card.face_value}} <span class="text-gray-500">{{each_card.suit}}</span> </p>
+                    {% else %}
+                        <p> {{each_card.face_value}} <span class="text-zinc-700">{{each_card.suit}}</span> </p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="basis-1/4">
+            {% if "deck" in session %}
+                <p class="text-lg font-bold">Deck ({{session["deck"]|length}} cards):</p>
+                {% for each_card in session["deck"] %}
+                    {% if each_card.suit == "♦" %}
+                        <p> {{each_card.face_value}} <span class="text-red-700">{{each_card.suit}}</span> </p>
+                    {% elif each_card.suit == "♥" %}
+                        <p> {{each_card.face_value}} <span class="text-rose-600">{{each_card.suit}}</span> </p>
+                    {% elif each_card.suit == "♣" %}
+                        <p> {{each_card.face_value}} <span class="text-gray-500">{{each_card.suit}}</span> </p>
+                    {% else %}
+                        <p> {{each_card.face_value}} <span class="text-zinc-700">{{each_card.suit}}</span> </p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="basis-1/4">
+            {% if "player_hand" in session %}
+                <p class="text-lg font-bold">Ask the computer:</p>
+                {% for each in session["player_hand"] %}
+                    <div>
+                        <button class="rounded bg-teal-700 hover:bg-teal-600 my-2 p-2">
+                            {% if each["point_value"] == 1 %}
+                                <a href="/request/1" class="basis-1/8">Do you have an Ace?</a>
+                            {% elif each["point_value"] == 13 %}
+                                <a href="/request/13" class="basis-1/8">Do you have a King?</a>
+                            {% elif each["point_value"] == 12 %}
+                                <a href="/request/12" class="basis-1/8">Do you have a Queen?</a>
+                            {% elif each["point_value"] == 11 %}
+                                <a href="/request/11" class="basis-1/8">Do you have a Jack?</a>
+                            {% else %}
+                                <a href="/request/{{each['point_value']}}" class="basis-1/8">Do you have a {{each["point_value"]}}?</a>
+                            {% endif %}
+                        </button>
+                    </div>
                 {% endfor %}
             {% endif %}
         </div>
     </div>
 
-    <div class="flex gap-5 mt-4">
-        <div class="basis-1/4">
-            <!-- {% if "player_hand" in session %}
-                <p class="text-lg font-bold mt-6">Your collected pairs:</p>
-                {% for each_card in session["player_hand"] %}
-                    <p> {{each_card.face_value}} of {{each_card.suit}} </p>
-                {% endfor %}
-            {% endif %} -->
-        </div>
-        <div class="basis-1/4">
-            <!-- {% if "computer_hand" in session %}
-                <p class="text-lg font-bold mt-6">Computer's collected pairs:</p>
-                {% for each_card in session["computer_hand"] %}
-                    <p> {{each_card.face_value}} of {{each_card.suit}} </p>
-                {% endfor %}
-            {% endif %} -->
-        </div>
-    </div>
-    
-
-    <p class="text-lg font-bold mt-6">Session:</p>
-    {% print(session) %}
+    <!-- <p class="text-lg font-bold mt-6">Session:</p>
+    {% for k,v in session.items() %}
+        <p>{{ k }}: {{ v }}</p>
+        <br>
+    {% endfor %} -->
 
 
     <!-- <script src="../static/js/script.js"></script> -->

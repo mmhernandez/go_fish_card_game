@@ -4,7 +4,8 @@ class Deck:
     def __init__(self):
         self.cards = []
 
-        self.suits = ["Spades", "Hearts", "Diamonds", "Clubs"]
+        self.suits = ["♠", "♥", "♦", "♣"]
+        # self.suits = ["Spades", "Hearts", "Diamonds", "Clubs"]
         for suit in self.suits:
             for i in range(1, 14):
                 
