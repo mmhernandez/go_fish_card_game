@@ -8,7 +8,7 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-neutral-950 text-stone-200 w-3/4 mx-auto">
+<body class="bg-neutral-950 text-stone-200 w-5/6 mx-auto">
     
     <button class="rounded bg-gray-500 hover:bg-gray-600 my-2 p-2">
         <a href="/clear">Clear Game</a>
@@ -27,17 +27,19 @@
         <div class="basis-1/4">
             {% if "player_hand" in session %}
                 <p class="text-lg font-bold">Your hand ({{session["player_hand"]|length}} cards):</p>
-                {% for each_card in session["player_hand"] %}
-                    {% if each_card.suit == "♦" %}
-                        <p> {{each_card.face_value}} <span class="text-red-700">{{each_card.suit}}</span> </p>
-                    {% elif each_card.suit == "♥" %}
-                        <p> {{each_card.face_value}} <span class="text-rose-600">{{each_card.suit}}</span> </p>
-                    {% elif each_card.suit == "♣" %}
-                        <p> {{each_card.face_value}} <span class="text-gray-500">{{each_card.suit}}</span> </p>
-                    {% else %}
-                        <p> {{each_card.face_value}} <span class="text-zinc-700">{{each_card.suit}}</span> </p>
-                    {% endif %}
-                {% endfor %}
+                <div class="grid grid-cols-4 gap-1 text-lg text-center font-bold rounded-lg">
+                    {% for each_card in session["player_hand"] %}
+                        {% if each_card.suit == "♦" %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </div>
+                        {% elif each_card.suit == "♥" %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-rose-600 text-2xl">{{each_card.suit}}</span> </div>
+                        {% elif each_card.suit == "♣" %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-gray-500 text-2xl">{{each_card.suit}}</span> </div>
+                        {% else %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             {% endif %}
             {% if "player_pairs" in session %}
                 {% if (session["player_pairs"]|length / 2)|int == 1  %}
@@ -45,33 +47,37 @@
                 {% else %}
                     <p class="text-lg font-bold mt-6">Your collected pairs ({{(session["player_pairs"]|length / 2)|int}} pairs):</p>
                 {% endif %}
-                {% for each_card in session["player_pairs"] %}
-                    {% if each_card.suit == "♦" %}
-                        <p> {{each_card.face_value}} <span class="text-red-700">{{each_card.suit}}</span> </p>
-                    {% elif each_card.suit == "♥" %}
-                        <p> {{each_card.face_value}} <span class="text-rose-600">{{each_card.suit}}</span> </p>
-                    {% elif each_card.suit == "♣" %}
-                        <p> {{each_card.face_value}} <span class="text-gray-500">{{each_card.suit}}</span> </p>
-                    {% else %}
-                        <p> {{each_card.face_value}} <span class="text-zinc-700">{{each_card.suit}}</span> </p>
-                    {% endif %}
-                {% endfor %}
+                <div class="grid grid-cols-4 gap-1 text-lg text-center font-bold rounded-lg">
+                    {% for each_card in session["player_pairs"] %}
+                        {% if each_card.suit == "♦" %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </div>
+                        {% elif each_card.suit == "♥" %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-rose-600 text-2xl">{{each_card.suit}}</span> </div>
+                        {% elif each_card.suit == "♣" %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-gray-500 text-2xl">{{each_card.suit}}</span> </div>
+                        {% else %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             {% endif %}
         </div>
         <div class="basis-1/4">
             {% if "computer_hand" in session %}
                 <p class="text-lg font-bold">Computer hand ({{(session["computer_hand"]|length)}} cards):</p>
-                {% for each_card in session["computer_hand"] %}
-                    {% if each_card.suit == "♦" %}
-                        <p> {{each_card.face_value}} <span class="text-red-700">{{each_card.suit}}</span> </p>
-                    {% elif each_card.suit == "♥" %}
-                        <p> {{each_card.face_value}} <span class="text-rose-600">{{each_card.suit}}</span> </p>
-                    {% elif each_card.suit == "♣" %}
-                        <p> {{each_card.face_value}} <span class="text-gray-500">{{each_card.suit}}</span> </p>
-                    {% else %}
-                        <p> {{each_card.face_value}} <span class="text-zinc-700">{{each_card.suit}}</span> </p>
-                    {% endif %}
-                {% endfor %}
+                <div class="grid grid-cols-4 gap-1 text-lg text-center font-bold rounded-lg">
+                    {% for each_card in session["computer_hand"] %}
+                        {% if each_card.suit == "♦" %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </div>
+                        {% elif each_card.suit == "♥" %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-rose-600 text-2xl">{{each_card.suit}}</span> </div>
+                        {% elif each_card.suit == "♣" %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-gray-500 text-2xl">{{each_card.suit}}</span> </div>
+                        {% else %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             {% endif %}
             {% if "computer_pairs" in session %}
                 {% if (session["computer_pairs"]|length / 2)|int == 1 %}
@@ -79,33 +85,37 @@
                 {% else %}
                     <p class="text-lg font-bold mt-6">Computer's collected pairs ({{(session["computer_pairs"]|length / 2)|int}} pairs):</p>
                 {% endif %}
-                {% for each_card in session["computer_pairs"] %}
-                    {% if each_card.suit == "♦" %}
-                        <p> {{each_card.face_value}} <span class="text-red-700">{{each_card.suit}}</span> </p>
-                    {% elif each_card.suit == "♥" %}
-                        <p> {{each_card.face_value}} <span class="text-rose-600">{{each_card.suit}}</span> </p>
-                    {% elif each_card.suit == "♣" %}
-                        <p> {{each_card.face_value}} <span class="text-gray-500">{{each_card.suit}}</span> </p>
-                    {% else %}
-                        <p> {{each_card.face_value}} <span class="text-zinc-700">{{each_card.suit}}</span> </p>
-                    {% endif %}
-                {% endfor %}
+                <div class="grid grid-cols-4 gap-1 text-lg text-center font-bold rounded-lg">
+                    {% for each_card in session["computer_pairs"] %}
+                        {% if each_card.suit == "♦" %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </div>
+                        {% elif each_card.suit == "♥" %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-rose-600 text-2xl">{{each_card.suit}}</span> </div>
+                        {% elif each_card.suit == "♣" %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-gray-500 text-2xl">{{each_card.suit}}</span> </div>
+                        {% else %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             {% endif %}
         </div>
         <div class="basis-1/4">
             {% if "deck" in session %}
                 <p class="text-lg font-bold">Deck ({{session["deck"]|length}} cards):</p>
-                {% for each_card in session["deck"] %}
-                    {% if each_card.suit == "♦" %}
-                        <p> {{each_card.face_value}} <span class="text-red-700">{{each_card.suit}}</span> </p>
-                    {% elif each_card.suit == "♥" %}
-                        <p> {{each_card.face_value}} <span class="text-rose-600">{{each_card.suit}}</span> </p>
-                    {% elif each_card.suit == "♣" %}
-                        <p> {{each_card.face_value}} <span class="text-gray-500">{{each_card.suit}}</span> </p>
-                    {% else %}
-                        <p> {{each_card.face_value}} <span class="text-zinc-700">{{each_card.suit}}</span> </p>
-                    {% endif %}
-                {% endfor %}
+                <div class="grid grid-cols-4 gap-1 text-lg text-center font-bold rounded-lg">
+                    {% for each_card in session["deck"] %}
+                        {% if each_card.suit == "♦" %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </div>
+                        {% elif each_card.suit == "♥" %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-rose-600 text-2xl">{{each_card.suit}}</span> </div>
+                        {% elif each_card.suit == "♣" %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-gray-500 text-2xl">{{each_card.suit}}</span> </div>
+                        {% else %}
+                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             {% endif %}
         </div>
         <div class="basis-1/4">
