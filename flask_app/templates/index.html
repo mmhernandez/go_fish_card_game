@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Go-Fish</title>
-
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-neutral-950 text-stone-200 w-5/6 mx-auto">
@@ -26,20 +25,68 @@
     <div class="flex gap-5 mt-4">
         <div class="basis-1/4">
             {% if "player_hand" in session %}
-                <p class="text-lg font-bold">Your hand ({{session["player_hand"]|length}} cards):</p>
+                <!-- TEST -->
+                <p class="text-lg font-bold">TEST -- Your hand ({{session["player_hand"]|length}} cards):</p>
+                <ul class="list grid grid-cols-4 gap-1 text-lg text-center font-bold rounded-lg">
+                    {% for each_card in session["player_hand"] %}
+                        {% if each_card.suit == "♦" %}
+                            <li class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900 cursor-pointer hover:bg-lime-200">
+                                <input type="checkbox" id="{{each_card.face_value}}{{each_card.suit}}" value="" class="hidden peer" required="">
+                                <label for="{{each_card.face_value}}{{each_card.suit}}" class="peer-checked:text-green-500 peer-checked:text-2xl">                           
+                                    <div class="block">
+                                        {{each_card.face_value}}<br>
+                                        <span class="text-red-700 text-2xl">{{each_card.suit}}</span>
+                                    </div>
+                                </label>
+                            </li>
+                        {% elif each_card.suit == "♥" %}
+                            <li class="">
+                                <input type="checkbox" id="{{each_card.face_value}}{{each_card.suit}}" value="" class="hidden peer" required="">
+                                <label for="{{each_card.face_value}}{{each_card.suit}}" class="text-gray-900 cursor-pointer peer-checked:text-green-500 peer-checked:text-2xl">                           
+                                    <div class="py-8 block rounded-lg shadow-lg bg-gray-300 hover:bg-lime-200">
+                                        {{each_card.face_value}}<br>
+                                        <span class="text-rose-600 text-2xl">{{each_card.suit}}</span>
+                                    </div>
+                                </label>
+                            </li>
+                        {% elif each_card.suit == "♣" %}
+                            <li class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900 cursor-pointer hover:bg-lime-200">
+                                <input type="checkbox" id="{{each_card.face_value}}{{each_card.suit}}" value="" class="hidden peer" required="">
+                                <label for="{{each_card.face_value}}{{each_card.suit}}" class="peer-checked:text-green-500 peer-checked:text-2xl">                           
+                                    <div class="block">
+                                        {{each_card.face_value}}<br>
+                                        <span class="text-gray-500 text-2xl">{{each_card.suit}}</span>
+                                    </div>
+                                </label>
+                            </li>
+                        {% else %}
+                            <li class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900 cursor-pointer hover:bg-lime-200">
+                                <input type="checkbox" id="{{each_card.face_value}}{{each_card.suit}}" value="" class="hidden peer" required="">
+                                <label for="{{each_card.face_value}}{{each_card.suit}}" class="peer-checked:text-green-500 peer-checked:text-2xl">                         
+                                    <div class="block">
+                                        {{each_card.face_value}}<br>
+                                        <span class="text-zinc-700 text-2xl">{{each_card.suit}}</span>
+                                    </div>
+                                </label>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <!-- END TEST -->
+                <!-- <p class="text-lg font-bold">Your hand ({{session["player_hand"]|length}} cards):</p>
                 <div class="grid grid-cols-4 gap-1 text-lg text-center font-bold rounded-lg">
                     {% for each_card in session["player_hand"] %}
                         {% if each_card.suit == "♦" %}
-                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </div>
+                            <button class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900 transition duration-150 ease-in-out hover:bg-gray-200 focus:outline-none focus:ring focus:ring-violet-500 "> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </button>
                         {% elif each_card.suit == "♥" %}
-                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-rose-600 text-2xl">{{each_card.suit}}</span> </div>
+                            <button class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring focus:ring-violet-500"> {{each_card.face_value}} <br><span class="text-rose-600 text-2xl">{{each_card.suit}}</span> </button>
                         {% elif each_card.suit == "♣" %}
-                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-gray-500 text-2xl">{{each_card.suit}}</span> </div>
+                            <button class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring focus:ring-violet-500"> {{each_card.face_value}} <br><span class="text-gray-500 text-2xl">{{each_card.suit}}</span> </button>
                         {% else %}
-                            <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
+                            <button class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring focus:ring-violet-500"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </button>
                         {% endif %}
                     {% endfor %}
-                </div>
+                </div> -->
             {% endif %}
             {% if "player_pairs" in session %}
                 {% if (session["player_pairs"]|length / 2)|int == 1  %}
@@ -149,6 +196,6 @@
     {% endfor %} -->
 
 
-    <!-- <script src="../static/js/script.js"></script> -->
+    <!-- <script src="../static/js/script_refresh.js"></script> -->
 </body>
 </html>
