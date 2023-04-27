@@ -1,6 +1,6 @@
 from flask_app import app
 from flask_app.models import game
-from flask import render_template, session, redirect
+from flask import render_template, session, redirect, request
 
 @app.route("/")
 def root():
@@ -14,8 +14,29 @@ def start_game():
     session["deck"] = game_dict["deck"]
     return redirect("/")
 
-@app.route("/pairs")
+@app.route("/pairs", methods=["POST"])
 def lay_down_pairs():
+    # confirm player is attempting to lay down a pair (2 cards only)
+    if len(request.form) != 2:
+        message = "Select a pair (2) of cards with the same face value to lay down pairs."
+        return render_template("index.html", message=message)
+    
+    pair_list = []
+    for each in request.form:
+        pair_list.append(each)
+    card1_dict = {
+        "suit": pair_list[0][:1],
+        "face_value": pair_list[0][1:]
+    }  
+    card2_dict = {
+        "suit": pair_list[1][:1],
+        "face_value": pair_list[1][1:]
+    }  
+    # confirm player attempted to lay down a pair of matching cards 
+    if card1_dict["face_value"] != card2_dict["face_value"]:
+        message = "The pair of cards selected do not have the same face vaule."
+        return render_template("index.html", message=message)
+
     player_hand = session["player_hand"]
     computer_hand = session["computer_hand"]
     deck = session["deck"]
