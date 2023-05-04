@@ -18,7 +18,7 @@ def start_game():
 def lay_down_pairs():
     # confirm player is attempting to lay down a pair (2 cards only)
     if len(request.form) != 2:
-        message = "Select a pair (2) of cards with the same face value to lay down pairs."
+        message = "Select a pair of cards with the same face value to lay down pairs."
         return render_template("index.html", message=message)
     
     pair_list = []
