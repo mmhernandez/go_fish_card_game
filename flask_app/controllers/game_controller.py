@@ -34,7 +34,7 @@ def lay_down_pairs():
     }  
     # confirm player attempted to lay down a pair of matching cards 
     if card1_dict["face_value"] != card2_dict["face_value"]:
-        message = "The pair of cards selected do not have the same face vaule."
+        message = "Select a pair of cards that have the same face vaule."
         return render_template("index.html", message=message)
 
     player_hand = session["player_hand"]
