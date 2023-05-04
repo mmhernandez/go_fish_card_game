@@ -37,6 +37,7 @@ def lay_down_pairs():
         message = "Select a pair of cards that have the same face vaule."
         return render_template("index.html", message=message)
 
+    # if the pair is valid, proceed with setting session variables and calling lay_down_pairs method
     player_hand = session["player_hand"]
     computer_hand = session["computer_hand"]
     deck = session["deck"]
