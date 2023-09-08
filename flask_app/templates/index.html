@@ -8,18 +8,23 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-neutral-950 text-stone-200 w-5/6 mx-auto">
-    <p class="text-center mt-5 mb-3">
-        The goal of the game is to find a matching face value pair (two 4's or 2 Jacks, etc.) for each card in your hand. <br>To complete your turn, start by laying down any pairs of cards in your hand by highlighting them and clicking the 'Lay Down Pairs' button. Next, ask the computer for a card to see if they can help you make another pair. Your turn ends when the computer does not have the card in question.
-    </p>
+    <!-- <div class="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500"> -->
+    <div class="bg-gradient-to-r from-red-700 via-zinc-800 to-zinc-900 shadow-lg">
+        <p class="text-center text-lg mt-5 mb-3 p-5">
+            The goal of the game is to find a matching face value pair (two 4's or 2 Jacks, etc.) for each card in your hand. The first to empty their hand wins!<br><br>
+
+            To complete your turn, start by laying down any pairs of cards in your hand. When no more pairs remain, ask the computer for a card to see if they can help you make another pair. Your turn ends when the computer does not have the card in question.
+        </p>
+    </div>
     <form action="/pairs" method="post">    
-        {% if message %}
-            <div class="p-3 my-3 rounded bg-yellow-200 text-zinc-800 text-center text-xl">
+        <!-- {% if message %}
+            <div class="p-3 my-3 rounded bg-gray-300 text-zinc-800 text-center text-xl mx-auto">
                 {{message}}
             </div>
-        {% endif %}
+        {% endif %} -->
 
         <!-- player hand -->
-        <div class="flex gap-5 mt-4">
+        <div class="flex gap-5 mt-6">
             <div class="basis-1/4">
                 {% if "player_hand" in session %}
                     <p class="text-lg font-bold">Your hand ({{session["player_hand"]|length}} cards):</p>
@@ -154,20 +159,31 @@
 
         <!-- actions -->
         <div class="basis-1/4">
-            <p class="text-lg font-bold">Player Actions:</p>
-            <button class="rounded bg-gray-500 hover:bg-gray-600 mt-2 mb-10 p-2">
-                <a href="/clear">Clear Game</a>
-            </button>
-
             {% if "player_hand" not in session %}
-                <button class="rounded bg-blue-500 hover:bg-blue-600 my-2 p-2">
-                    <a href="/start_game">New Game</a>
-                </button>
+            <button class="rounded bg-blue-500 hover:bg-blue-600 my-2 p-2">
+                <a href="/start_game">New Game</a>
+            </button>
             {% else %}
-
+                <p class="text-lg font-bold">Player Actions:</p>
+                {% if message %}
+                    {% if color == "red" %}
+                        <div class="p-3 my-3 rounded bg-gray-300 text-red-600 text-xl mx-auto">
+                            {{message}}
+                        </div>
+                    {% else %}
+                        <div class="p-3 my-3 rounded bg-gray-500 text-xl mx-auto">
+                            <span class="relative flex h-3 w-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400"></span>
+                            </span>
+                            {{message}}
+                        </div>
+                    {% endif %}
+                {% endif %}
+            
                 <!-- if player hand has a pair -->
-                <p class="text-pink-500">Lay down pairs of cards in your hand by highlighting them and clicking the 'Lay Down Pairs' button below.</p>
-                <input type="submit" value="Lay Down Pairs" class="rounded bg-pink-500 hover:bg-pink-600 my-2 p-2 cursor-pointer">
+                <p class="text-violet-500">Lay down pairs of cards in your hand by highlighting them and clicking the 'Lay Down Pairs' button below.</p>
+                <input type="submit" value="Lay Down Pairs" class="rounded bg-violet-500 hover:bg-violet-600 my-2 p-2 cursor-pointer">
 
                 <!-- else -->
                 <p class="text-teal-600 font-bold">Ask the computer...</p>
@@ -191,6 +207,15 @@
                 {% endfor %}
             {% endif %}
 
+            <!-- Button triggering confirmation -->
+            <button type="button" class="rounded bg-gray-500 hover:bg-gray-600 my-10 p-2" id="cancel-button">Cancel Game</button>
+            <!-- Confirmation  -->
+            <div id="confirm-cancel" class="hidden">
+                <p>Are you sure you want to cancel the game?</p>
+                <button type="button" class="rounded bg-gray-500 hover:bg-gray-600 mt-2 mb-10 p-2" id="confirm-button">
+                    <a href="/clear">Yes, cancel game</a>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -202,5 +227,6 @@
 
 
     <!-- <script src="../static/js/script_refresh.js"></script> -->
+    <script src="../static/js/script_modal.js"></script>
 </body>
 </html>

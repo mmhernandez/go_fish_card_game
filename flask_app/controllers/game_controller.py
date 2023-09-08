@@ -19,7 +19,7 @@ def start_game():
 def lay_down_pairs():
     # confirm player is attempting to lay down a pair (2 cards only)
     if len(request.form) != 2:
-        message = "Select a pair (2) of cards with the same face value to lay down pairs."
+        message = "Select a pair (2) of cards with the same face value."
         return render_template("index.html", message=message)
     
     pair_list = []
@@ -35,8 +35,8 @@ def lay_down_pairs():
     }  
     # confirm player attempted to lay down a pair of matching cards 
     if card1_dict["face_value"] != card2_dict["face_value"]:
-        message = "Select a pair of cards that have the same face vaule."
-        return render_template("index.html", message=message)
+        message = "Pairs of cards must have the same face value."
+        return render_template("index.html", message=message, color="red")
 
     # if the pair is valid, proceed with setting session variables and calling lay_down_pairs method
     player_hand = session["player_hand"]
