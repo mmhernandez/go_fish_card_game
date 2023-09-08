@@ -12,7 +12,8 @@ def start_game():
     session["player_hand"] = game_dict["player_hand"]
     session["computer_hand"] = game_dict["computer_hand"]
     session["deck"] = game_dict["deck"]
-    return redirect("/")
+    message = "The game has begun, and it's your turn!"
+    return render_template("index.html", message=message)
 
 @app.route("/pairs", methods=["POST"])
 def lay_down_pairs():

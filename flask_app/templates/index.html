@@ -8,8 +8,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-neutral-950 text-stone-200 w-5/6 mx-auto">
+    <p class="text-center mt-5 mb-3">
+        The goal of the game is to find a matching face value pair (two 4's or 2 Jacks, etc.) for each card in your hand. <br>To complete your turn, start by laying down any pairs of cards in your hand by highlighting them and clicking the 'Lay Down Pairs' button. Next, ask the computer for a card to see if they can help you make another pair. Your turn ends when the computer does not have the card in question.
+    </p>
     <form action="/pairs" method="post">    
-        <button class="rounded bg-gray-500 hover:bg-gray-600 my-2 p-2">
+        <!-- <button class="rounded bg-gray-500 hover:bg-gray-600 my-2 p-2">
             <a href="/clear">Clear Game</a>
         </button>
         {% if "player_hand" not in session %}
@@ -18,9 +21,9 @@
             </button>
         {% else %}
             <input type="submit" value="Lay Down Pairs" class="rounded bg-pink-500 hover:bg-pink-600 my-2 p-2 cursor-pointer">
-        {% endif %}
+        {% endif %} -->
         {% if message %}
-            <div class="p-3 my-3 rounded bg-yellow-200 text-zinc-800 text-center text-xl w-1/2">
+            <div class="p-3 my-3 rounded bg-yellow-200 text-zinc-800 text-center text-xl w-3/4">
                 {{message}}
             </div>
         {% endif %}
@@ -154,8 +157,18 @@
             {% endif %}
         </div>
         <div class="basis-1/4">
+            <button class="rounded bg-gray-500 hover:bg-gray-600 mt-2 mb-10 p-2">
+                <a href="/clear">Clear Game</a>
+            </button>
+            {% if "player_hand" not in session %}
+                <button class="rounded bg-blue-500 hover:bg-blue-600 my-2 p-2">
+                    <a href="/start_game">New Game</a>
+                </button>
+            {% else %}
+                <input type="submit" value="Lay Down Pairs" class="rounded bg-pink-500 hover:bg-pink-600 my-2 p-2 cursor-pointer">
+            {% endif %}
             {% if "player_hand" in session %}
-                <p class="text-lg font-bold">Ask the computer:</p>
+                <p class="text-2xl text-teal-600 font-bold">Ask the computer:</p>
                 {% for each in session["player_hand"] %}
                     <div>
                         <button class="rounded bg-teal-700 hover:bg-teal-600 my-2 p-2">
