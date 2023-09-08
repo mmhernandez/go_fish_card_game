@@ -12,22 +12,13 @@
         The goal of the game is to find a matching face value pair (two 4's or 2 Jacks, etc.) for each card in your hand. <br>To complete your turn, start by laying down any pairs of cards in your hand by highlighting them and clicking the 'Lay Down Pairs' button. Next, ask the computer for a card to see if they can help you make another pair. Your turn ends when the computer does not have the card in question.
     </p>
     <form action="/pairs" method="post">    
-        <!-- <button class="rounded bg-gray-500 hover:bg-gray-600 my-2 p-2">
-            <a href="/clear">Clear Game</a>
-        </button>
-        {% if "player_hand" not in session %}
-            <button class="rounded bg-blue-500 hover:bg-blue-600 my-2 p-2">
-                <a href="/start_game">New Game</a>
-            </button>
-        {% else %}
-            <input type="submit" value="Lay Down Pairs" class="rounded bg-pink-500 hover:bg-pink-600 my-2 p-2 cursor-pointer">
-        {% endif %} -->
         {% if message %}
-            <div class="p-3 my-3 rounded bg-yellow-200 text-zinc-800 text-center text-xl w-3/4">
+            <div class="p-3 my-3 rounded bg-yellow-200 text-zinc-800 text-center text-xl">
                 {{message}}
             </div>
         {% endif %}
 
+        <!-- player hand -->
         <div class="flex gap-5 mt-4">
             <div class="basis-1/4">
                 {% if "player_hand" in session %}
@@ -100,6 +91,8 @@
             {% endif %}
         </div>
     </form>
+
+        <!-- computer hand -->
         <div class="basis-1/4">
             {% if "computer_hand" in session %}
                 <p class="text-lg font-bold">Computer hand ({{(session["computer_hand"]|length)}} cards):</p>
@@ -138,6 +131,8 @@
                 </div>
             {% endif %}
         </div>
+
+        <!-- remaining deck -->
         <div class="basis-1/4">
             {% if "deck" in session %}
                 <p class="text-lg font-bold">Deck ({{session["deck"]|length}} cards):</p>
@@ -156,19 +151,27 @@
                 </div>
             {% endif %}
         </div>
+
+        <!-- actions -->
         <div class="basis-1/4">
+            <p class="text-lg font-bold">Player Actions:</p>
             <button class="rounded bg-gray-500 hover:bg-gray-600 mt-2 mb-10 p-2">
                 <a href="/clear">Clear Game</a>
             </button>
+
             {% if "player_hand" not in session %}
                 <button class="rounded bg-blue-500 hover:bg-blue-600 my-2 p-2">
                     <a href="/start_game">New Game</a>
                 </button>
             {% else %}
+
+                <!-- if player hand has a pair -->
+                <p class="text-pink-500">Lay down pairs of cards in your hand by highlighting them and clicking the 'Lay Down Pairs' button below.</p>
                 <input type="submit" value="Lay Down Pairs" class="rounded bg-pink-500 hover:bg-pink-600 my-2 p-2 cursor-pointer">
-            {% endif %}
-            {% if "player_hand" in session %}
-                <p class="text-2xl text-teal-600 font-bold">Ask the computer:</p>
+
+                <!-- else -->
+                <p class="text-teal-600 font-bold">Ask the computer...</p>
+                <p class="text-teal-600">Since there are no pairs in your hand, ask the computer if it has a matching card so you can try to find a pair.</p>
                 {% for each in session["player_hand"] %}
                     <div>
                         <button class="rounded bg-teal-700 hover:bg-teal-600 my-2 p-2">
@@ -187,6 +190,7 @@
                     </div>
                 {% endfor %}
             {% endif %}
+
         </div>
     </div>
 
