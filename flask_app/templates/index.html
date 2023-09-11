@@ -101,7 +101,18 @@
         <div class="basis-1/4">
             {% if "computer_hand" in session %}
                 <p class="text-lg font-bold">Computer hand ({{(session["computer_hand"]|length)}} cards):</p>
-                <div class="grid grid-cols-4 gap-1 text-lg text-center font-bold rounded-lg">
+                <div class="rounded-lg flex flex-wrap gap-2">
+                    {% for each_card in session["computer_hand"] %}
+                        {% if loop.index0 == 0 %}
+                            <div class="w-24 h-32 mb-1 rounded-lg bg-gradient-to-r from-sky-500 to-sky-800 shadow-sm shadow-sky-800">
+                            </div>
+                        {% else %}
+                            <div class="w-24 h-32 mb-1 -ms-20 rounded-lg bg-gradient-to-r from-sky-500 to-sky-800 shadow-sm shadow-sky-800">
+                            </div>
+                        {% endif %}
+                    {% endfor %}   
+                </div>
+                <!-- <div class="grid grid-cols-4 gap-1 text-lg text-center font-bold rounded-lg">
                     {% for each_card in session["computer_hand"] %}
                         {% if each_card.suit == "♦" %}
                             <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </div>
@@ -113,7 +124,7 @@
                             <div class="py-8 rounded-lg shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
                         {% endif %}
                     {% endfor %}
-                </div>
+                </div> -->
             {% endif %}
             {% if "computer_pairs" in session %}
                 {% if (session["computer_pairs"]|length / 2)|int == 1 %}
@@ -141,18 +152,15 @@
         <div class="basis-1/4">
             {% if "deck" in session %}
                 <p class="text-lg font-bold">Deck ({{session["deck"]|length}} cards):</p>
-                <!-- <div class="grid grid-cols-4 gap-1 rounded-lg flex flex-wrap">
-                    {% for each_card in session["deck"] %}
-                        <div class="py-8 rounded-lg shadow-lg bg-gray-300">
-                            <img src="../static/images/darkgreen.jpg" alt="card back">
-                        </div>
-                    {% endfor %}   
-                </div> -->
                 <div class="rounded-lg flex flex-wrap gap-2">
                     {% for each_card in session["deck"] %}
-                        <div class="w-24 h-32 mb-1 rounded-lg bg-gradient-to-r from-sky-500 to-sky-800 shadow-sm shadow-sky-800">
-                            <!-- <img src="../static/images/red.jpg" alt="card back"> -->
-                        </div>
+                        {% if loop.index0 == 0 %}
+                            <div class="w-24 h-32 mb-1 rounded-lg bg-gradient-to-r from-sky-500 to-sky-800 shadow-sm shadow-sky-800">
+                            </div>
+                        {% else %}
+                            <div class="w-24 h-32 mb-1 -ms-20 rounded-lg bg-gradient-to-r from-sky-500 to-sky-800 shadow-sm shadow-sky-800">
+                            </div>
+                        {% endif %}
                     {% endfor %}   
                 </div>
                 <!-- <div class="grid grid-cols-4 gap-1 text-lg text-center font-bold rounded-lg">
