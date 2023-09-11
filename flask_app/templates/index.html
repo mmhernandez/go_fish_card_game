@@ -164,20 +164,29 @@
                 <a href="/start_game">New Game</a>
             </button>
             {% else %}
-                <p class="text-lg font-bold">Player Actions:</p>
+                <div class="flex gap-3 items-end">
+                    <p class="text-lg font-bold">Player Actions:</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512" class="animate-bounce">
+                        <style>svg{fill:#6B7280}</style>
+                        <path d="M256 0a256 256 0 1 0 0 512A256 256 0 1 0 256 0zM127 281c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l71 71L232 136c0-13.3 10.7-24 24-24s24 10.7 24 24l0 182.1 71-71c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9L273 393c-9.4 9.4-24.6 9.4-33.9 0L127 281z"/>
+                    </svg>
+                </div>
                 {% if message %}
                     {% if color == "red" %}
                         <div class="p-3 my-3 rounded bg-gray-300 text-red-600 text-xl mx-auto">
                             {{message}}
                         </div>
                     {% else %}
-                        <div class="p-3 my-3 rounded bg-gray-500 text-xl mx-auto">
+                        <!-- <div class="p-3 my-3 rounded bg-gray-500 text-xl mx-auto">
                             <span class="relative flex h-3 w-3">
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
                             </span>
                             {{message}}
-                        </div>
+                        </div> -->
+                            <div class="p-3 my-3 rounded bg-gray-500 text-xl mx-auto">
+                                {{message}}
+                            </div>
                     {% endif %}
                 {% endif %}
             
