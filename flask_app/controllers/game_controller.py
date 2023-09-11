@@ -13,7 +13,10 @@ def start_game():
     session["computer_hand"] = game_dict["computer_hand"]
     session["deck"] = game_dict["deck"]
     message = "The game has begun, and it's your turn!"
-    return render_template("index.html", message=message)
+
+    hasPairs = game.Game.check_for_pairs(game_dict["player_hand"])
+
+    return render_template("index.html", message=message, hasPairs=hasPairs)
 
 @app.route("/pairs", methods=["POST"])
 def lay_down_pairs():
@@ -65,7 +68,10 @@ def lay_down_pairs():
         session["computer_pairs"] = updated_computer_game_dict["pairs"]
 
     session["deck"] = updated_computer_game_dict["deck"]
-    return redirect("/")
+    
+    hasPairs = game.Game.check_for_pairs(updated_player_game_dict["hand"])
+    
+    return render_template("index.html", message=message, hasPairs=hasPairs)
 
 @app.route("/request/<int:point_value>")
 def card_request(point_value):
@@ -86,7 +92,9 @@ def card_request(point_value):
         pass
         # let the player ask again
 
-    return redirect("/")
+    hasPairs = game.Game.check_for_pairs(player_hand)
+    
+    return render_template("index.html", hasPairs=hasPairs)
 
 @app.route("/clear")
 def clear_game_session():

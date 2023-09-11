@@ -44,6 +44,20 @@ class Game:
         }
         return game_dict
     
+    @staticmethod
+    def check_for_pairs(hand):
+        flag = False
+        lookup_dict = {}
+        for i in range(len(hand)):
+            # determine if any pairs are present in the hand
+            if hand[i]["point_value"] in lookup_dict:
+                # set flag to True if pair exists and break out of loop
+                flag = True
+                break   
+            else:
+                lookup_dict[hand[i]["point_value"]] = i
+        print(f'flag = {flag}')
+        return flag
 
     @staticmethod
     def lay_down_pairs(hand, deck):
