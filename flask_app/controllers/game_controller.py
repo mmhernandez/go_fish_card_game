@@ -2,9 +2,11 @@ from flask_app import app
 from flask_app.models import game
 from flask import render_template, session, redirect, request
 
+
 @app.route("/")
 def root():
     return render_template("index.html")
+
 
 @app.route("/start_game")
 def start_game():
@@ -17,6 +19,7 @@ def start_game():
     hasPairs = game.Game.check_for_pairs(game_dict["player_hand"])
 
     return render_template("index.html", message=message, hasPairs=hasPairs)
+
 
 @app.route("/pairs", methods=["POST"])
 def lay_down_pairs():
@@ -73,6 +76,7 @@ def lay_down_pairs():
     
     return render_template("index.html", message=message, hasPairs=hasPairs)
 
+
 @app.route("/request/<int:point_value>")
 def card_request(point_value):
     player_hand = session["player_hand"]
@@ -80,21 +84,30 @@ def card_request(point_value):
     deck = session["deck"]
 
     result = game.Game.check_hand_for_card(player_hand, computer_hand, point_value, deck)
-    session["player_hand"] = result["request_hand"]
-    session["computer_hand"] = result["check_hand"]
-    session["deck"] = result["deck"]
 
-    if not result:
-        pass
-        # alert the computer's had does not have the requested card
-        # call the check hand method for the computer, selecting a random point value in the computer_hand
+    if not result["flag"]:
+        message = "The computer did not have a matching card and has taken it's turn."
+
+        player_hand = result["request_hand"]
+        computer_hand = result["check_hand"]
+        deck = result["deck"]
+
+        computer_turn_result = game.Game.computer_turn(computer_hand, player_hand, deck)
+
+        session["player_hand"] = computer_turn_result["request_hand"]
+        session["computer_hand"] = computer_turn_result["check_hand"]
+        session["deck"] = computer_turn_result["deck"]
+        hasPairs = game.Game.check_for_pairs(computer_turn_result["check_hand"])
+
     else:
-        pass
-        # let the player ask again
+        message = "The computer had a match!"
+        session["player_hand"] = result["request_hand"]
+        session["computer_hand"] = result["check_hand"]
+        session["deck"] = result["deck"]
+        hasPairs = game.Game.check_for_pairs(result["request_hand"])
+        
+    return render_template("index.html", hasPairs=hasPairs, message=message)
 
-    hasPairs = game.Game.check_for_pairs(player_hand)
-    
-    return render_template("index.html", hasPairs=hasPairs)
 
 @app.route("/clear")
 def clear_game_session():

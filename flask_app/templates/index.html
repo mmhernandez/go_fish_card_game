@@ -168,7 +168,7 @@
     </form>
 
     <!-- computer hand -->
-    <div class="basis-1/2">
+    <div class="basis-1/2 mt-14">
         {% if "computer_hand" in session %}
             <p class="text-lg font-bold">Computer hand ({{(session["computer_hand"]|length)}} cards):</p>
             <!-- mask cards in computer hand -->
@@ -220,7 +220,7 @@
     </div>
 
     <!-- remaining deck -->
-    <div>
+    <div class="mt-14">
         {% if "deck" in session %}
             <p class="text-lg font-bold">Deck ({{session["deck"]|length}} cards):</p>
             <div class="rounded-lg flex flex-wrap gap-2">

@@ -56,7 +56,6 @@ class Game:
                 break   
             else:
                 lookup_dict[hand[i]["point_value"]] = i
-        print(f'flag = {flag}')
         return flag
 
     @staticmethod
@@ -121,18 +120,35 @@ class Game:
                 request_hand.append(card_to_transfer)
                 flag = True
 
-        print(f'len(check_hand) = {len(check_hand)}')
-
         result_game_dict = {
             "request_hand": request_hand,
             "check_hand": check_hand,
-            "deck": deck
+            "deck": deck,
+            "flag": flag
         }
 
         if flag == True:
             updated_check_hand_dict = Game.draw_from_deck(result_game_dict["check_hand"], result_game_dict["deck"])
             result_game_dict["check_hand"] = updated_check_hand_dict["hand"]
             result_game_dict["deck"] = updated_check_hand_dict["deck"]
+
+        return result_game_dict
+    
+    @staticmethod
+    def computer_turn(computer_hand, player_hand, deck):
+
+        # call the check hand method for the computer, selecting a random point value in the computer_hand
+        random = random.random.randint(0,len(computer_hand))
+        random_point_value = computer_hand[random]
+
+        print(f'random = {random}')
+        print(f'random_point_value = {random_point_value}')
+
+        result_game_dict = {
+            "computer_hand": computer_hand,
+            "player_hand": player_hand,
+            "deck": deck
+        }
 
         return result_game_dict
 
