@@ -58,8 +58,9 @@ class Game:
                 lookup_dict[hand[i]["point_value"]] = i
         return flag
 
+
     @staticmethod
-    def lay_down_pairs(hand, deck):
+    def lay_down_pairs_computer(hand, deck):
         pairs = []
         lookup_dict = {}
         for i in range(len(hand)):
@@ -90,6 +91,46 @@ class Game:
             updated_cards = Game.draw_from_deck(new_hand, deck)
             updated_game_dict["hand"]: updated_cards["hand"]
             updated_game_dict["deck"]: updated_cards["deck"]
+        
+        return updated_game_dict
+    
+
+    @staticmethod
+    def lay_down_pairs(hand, pair_list, deck):
+        new_pairs = []        
+        # add pairs to the new_pairs list
+        new_pairs.append(pair_list[0])
+        new_pairs.append(pair_list[1])
+
+        print(f'starting hand: {hand}')
+        print(f'pair_list: {pair_list}')
+
+        # remove paired cards from hand
+        index_list = []
+        for i in range(len(hand)):
+            for j in range(len(pair_list)):
+                if hand[i]["suit"] == pair_list[j]["suit"] and hand[i]["face_value"] == pair_list[j]["face_value"]:
+                    index_list.append(i)
+        
+        print(f'index_list = {index_list}')
+
+        new_hand = []
+        for i in range(len(hand)):
+            if i not in index_list:
+                new_hand.append(hand[i])
+
+        print(f'ending hand: {new_hand}')
+
+        updated_game_dict = {
+            "hand": new_hand,
+            "pairs": new_pairs,
+            "deck": deck
+        }
+
+        #call method to draw from the deck
+        updated_cards = Game.draw_from_deck(new_hand, deck)
+        updated_game_dict["hand"]: updated_cards["hand"]
+        updated_game_dict["deck"]: updated_cards["deck"]
         
         return updated_game_dict
         
@@ -137,12 +178,11 @@ class Game:
     @staticmethod
     def computer_turn(computer_hand, player_hand, deck):
 
-        # call the check hand method for the computer, selecting a random point value in the computer_hand
-        random = random.random.randint(0,len(computer_hand))
-        random_point_value = computer_hand[random]
+        rand = random.randint(0,len(computer_hand))
+        rand_point_value = computer_hand[rand]
 
-        print(f'random = {random}')
-        print(f'random_point_value = {random_point_value}')
+        print(f'rand = {rand}')
+        print(f'rand_point_value = {rand_point_value}')
 
         result_game_dict = {
             "computer_hand": computer_hand,

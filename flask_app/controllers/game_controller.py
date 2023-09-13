@@ -14,7 +14,7 @@ def start_game():
     session["player_hand"] = game_dict["player_hand"]
     session["computer_hand"] = game_dict["computer_hand"]
     session["deck"] = game_dict["deck"]
-    message = "The game has begun, and it's your turn!"
+    message = "The game has begun, and you're up first!"
 
     hasPairs = game.Game.check_for_pairs(game_dict["player_hand"])
 
@@ -26,35 +26,48 @@ def lay_down_pairs():
     # confirm player is attempting to lay down a pair (2 cards only)
     if len(request.form) != 2:
         message = "Select a pair (2) of cards with the same face value."
-        return render_template("index.html", message=message)
+        return render_template("index.html", message=message, hasPairs=True, color="red")
     
-    pair_list = []
+    # grab the pair of cards from the request form
+    req_form_pairs = []
     for each in request.form:
-        pair_list.append(each)
+        req_form_pairs.append(each)
+    # format pair for model method logic
     card1_dict = {
-        "suit": pair_list[0][:1],
-        "face_value": pair_list[0][1:]
+        "suit": req_form_pairs[0][:1],
+        "face_value": req_form_pairs[0][1:]
     }  
     card2_dict = {
-        "suit": pair_list[1][:1],
-        "face_value": pair_list[1][1:]
-    }  
+        "suit": req_form_pairs[1][:1],
+        "face_value": req_form_pairs[1][1:]
+    }
+    pair_list = []
+    pair_list.append(card1_dict)
+    pair_list.append(card2_dict)
+    
     # confirm player attempted to lay down a pair of matching cards 
     if card1_dict["face_value"] != card2_dict["face_value"]:
         message = "Pairs of cards must have the same face value."
-        return render_template("index.html", message=message, color="red")
+        return render_template("index.html", message=message, hasPairs=True, color="red")
+
 
     # if the pair is valid, proceed with setting session variables and calling lay_down_pairs method
     player_hand = session["player_hand"]
-    computer_hand = session["computer_hand"]
     deck = session["deck"]
 
+    # do not allow duplication of cards when player refreshes and resubmits the form
+    # THIS DOESN'T WORK YET
     if "player_pairs" in session:
-        player_pairs = session["player_pairs"]
-    if "computer_pairs" in session:
-        computer_pairs = session["computer_pairs"]
+        hasPairs = game.Game.check_for_pairs(player_hand)
 
-    updated_player_game_dict = game.Game.lay_down_pairs(player_hand, deck)
+        player_pairs = session["player_pairs"]
+        for card in player_hand:
+            for pair in player_pairs:
+                if card == pair:
+                    return render_template("index.html", hasPairs=hasPairs)
+
+    # lay down the pair selected and draw from the deck
+    updated_player_game_dict = game.Game.lay_down_pairs(player_hand, pair_list, deck)
     session["player_hand"] = updated_player_game_dict["hand"]
     if "player_pairs" in session:
         player_pairs.extend(updated_player_game_dict["pairs"])
@@ -62,19 +75,20 @@ def lay_down_pairs():
     else:
         session["player_pairs"] = updated_player_game_dict["pairs"]
 
-    updated_computer_game_dict = game.Game.lay_down_pairs(computer_hand, updated_player_game_dict["deck"])
-    session["computer_hand"] = updated_computer_game_dict["hand"]
-    if "computer_pairs" in session:
-        computer_pairs.extend(updated_computer_game_dict["pairs"])
-        session["computer_pairs"] = computer_pairs
-    else:
-        session["computer_pairs"] = updated_computer_game_dict["pairs"]
-
-    session["deck"] = updated_computer_game_dict["deck"]
+    # updated_computer_game_dict = game.Game.lay_down_pairs(computer_hand, updated_player_game_dict["deck"])
+    # session["computer_hand"] = updated_computer_game_dict["hand"]
+    # if "computer_pairs" in session:
+    #     computer_pairs.extend(updated_computer_game_dict["pairs"])
+    #     session["computer_pairs"] = computer_pairs
+    # else:
+    #     session["computer_pairs"] = updated_computer_game_dict["pairs"]
+    # session["deck"] = updated_computer_game_dict["deck"]
+    
+    # session["computer_hand"] = computer_hand
     
     hasPairs = game.Game.check_for_pairs(updated_player_game_dict["hand"])
     
-    return render_template("index.html", message=message, hasPairs=hasPairs)
+    return render_template("index.html", hasPairs=hasPairs)
 
 
 @app.route("/request/<int:point_value>")
@@ -94,10 +108,10 @@ def card_request(point_value):
 
         computer_turn_result = game.Game.computer_turn(computer_hand, player_hand, deck)
 
-        session["player_hand"] = computer_turn_result["request_hand"]
-        session["computer_hand"] = computer_turn_result["check_hand"]
+        session["player_hand"] = computer_turn_result["player_hand"]
+        session["computer_hand"] = computer_turn_result["computer_hand"]
         session["deck"] = computer_turn_result["deck"]
-        hasPairs = game.Game.check_for_pairs(computer_turn_result["check_hand"])
+        hasPairs = game.Game.check_for_pairs(computer_turn_result["player_hand"])
 
     else:
         message = "The computer had a match!"
