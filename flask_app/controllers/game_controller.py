@@ -56,14 +56,14 @@ def lay_down_pairs():
     deck = session["deck"]
 
     # do not allow duplication of cards when player refreshes and resubmits the form
-    # THIS DOESN'T WORK YET
     if "player_pairs" in session:
+        print('In test conditional...')
         hasPairs = game.Game.check_for_pairs(player_hand)
 
         player_pairs = session["player_pairs"]
-        for card in player_hand:
-            for pair in player_pairs:
-                if card == pair:
+        for i in range(len(player_pairs)):
+            for j in range(len(pair_list)):
+                if player_pairs[i]["suit"] == pair_list[j]["suit"] and player_pairs[i]["face_value"] == pair_list[j]["face_value"]:
                     return render_template("index.html", hasPairs=hasPairs)
 
     # lay down the pair selected and draw from the deck

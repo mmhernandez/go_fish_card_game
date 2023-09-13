@@ -102,24 +102,17 @@ class Game:
         new_pairs.append(pair_list[0])
         new_pairs.append(pair_list[1])
 
-        print(f'starting hand: {hand}')
-        print(f'pair_list: {pair_list}')
-
         # remove paired cards from hand
         index_list = []
         for i in range(len(hand)):
             for j in range(len(pair_list)):
                 if hand[i]["suit"] == pair_list[j]["suit"] and hand[i]["face_value"] == pair_list[j]["face_value"]:
                     index_list.append(i)
-        
-        print(f'index_list = {index_list}')
 
         new_hand = []
         for i in range(len(hand)):
             if i not in index_list:
                 new_hand.append(hand[i])
-
-        print(f'ending hand: {new_hand}')
 
         updated_game_dict = {
             "hand": new_hand,
