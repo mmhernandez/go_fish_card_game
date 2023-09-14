@@ -100,7 +100,7 @@ def card_request(point_value):
     result = game.Game.check_hand_for_card(player_hand, computer_hand, point_value, deck)
 
     if not result["flag"]:
-        message = "The computer did not have a matching card and has taken it's turn."
+        message = "The computer did not have a matching card. The computer has taken it's turn and it is your turn again!"
 
         player_hand = result["request_hand"]
         computer_hand = result["check_hand"]
