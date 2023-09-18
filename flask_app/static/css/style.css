@@ -1,0 +1,6 @@
+#computer_turn_message {
+    background-color: blueviolet 2s;
+    color: hotpink;
+    content: "The computer did not have a matching card, and your turn is over. The computer has taken it's turn and it is your turn again!";
+    transition: 2s all;
+}

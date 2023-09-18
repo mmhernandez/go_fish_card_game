@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Go-Fish</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body class="bg-neutral-950 text-stone-200 w-5/6 mx-auto">
 
@@ -160,7 +162,11 @@
                         </svg>
                     </div>
                     {% if message %}
-                        {% if color == "red" %}
+                        {% if message == "The computer did not have a matching card, and your turn is over." %}
+                            <div class="p-3 my-3 rounded bg-green-600 text-xl mx-auto" id="computer_turn_message">
+                                {{message}}
+                            </div>
+                        {% elif color == "red" %}
                             <div class="p-3 my-3 rounded bg-gray-300 text-red-600 text-xl mx-auto">
                                 {{message}}
                             </div>
