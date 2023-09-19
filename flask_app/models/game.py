@@ -44,6 +44,7 @@ class Game:
         }
         return game_dict
     
+
     @staticmethod
     def check_for_pairs(hand):
         flag = False
@@ -126,7 +127,7 @@ class Game:
         updated_game_dict["deck"]: updated_cards["deck"]
         
         return updated_game_dict
-        
+
 
     @staticmethod
     def draw_from_deck(hand, deck):
@@ -168,6 +169,7 @@ class Game:
 
         return result_game_dict
     
+
     @staticmethod
     def computer_turn(computer_hand, player_hand, deck):
 
