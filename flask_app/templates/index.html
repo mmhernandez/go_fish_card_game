@@ -204,6 +204,11 @@
                                             <input type="submit" value="Lay Down Pairs" class="rounded bg-violet-500 hover:bg-violet-600 my-2 p-2 cursor-pointer">
                                         </div>
                                     </div>
+                                {% else %}
+                                    <p class="text-violet-500">Lay down pairs of cards in your hand by highlighting them and clicking the button below.</p>
+                                    <div>
+                                        <input type="submit" value="Lay Down Pairs" class="rounded bg-violet-500 hover:bg-violet-600 my-2 p-2 cursor-pointer">
+                                    </div>
                                 {% endif %}
                             {% else %}
                                 <p class="text-violet-500">Lay down pairs of cards in your hand by highlighting them and clicking the button below.</p>
@@ -214,32 +219,49 @@
                         {% else %}
                             {% if message %}
                                 {% if message == "The computer did not have a matching card. Your turn is over and the computer will take a turn." %}
-                                    <div>
-                                        <div class="computer_turn_over_message">
-                                            <p class="text-teal-600 font-bold">Ask the computer...</p>
-                                            <p class="text-teal-600">Since there are no pairs in your hand, ask the computer if it has a matching card so you can try to find a pair.</p>
-                                            <div class="flex flex-wrap gap-3">
-                                                {% for each in session["player_hand"] %}
-                                                    <button class="rounded bg-teal-700 hover:bg-teal-600 my-2 p-2">
-                                                        {% if each["point_value"] == 1 %}
-                                                            <a href="/request/1" class="basis-1/8">Do you have an Ace?</a>
-                                                        {% elif each["point_value"] == 13 %}
-                                                            <a href="/request/13" class="basis-1/8">Do you have a King?</a>
-                                                        {% elif each["point_value"] == 12 %}
-                                                            <a href="/request/12" class="basis-1/8">Do you have a Queen?</a>
-                                                        {% elif each["point_value"] == 11 %}
-                                                            <a href="/request/11" class="basis-1/8">Do you have a Jack?</a>
-                                                        {% else %}
-                                                            <a href="/request/{{each['point_value']}}" class="basis-1/8">Do you have a {{each["point_value"]}}?</a>
-                                                        {% endif %}
-                                                    </button>
-                                                {% endfor %}
-                                            </div>
+                                    <div class="computer_turn_over_message">
+                                        <p class="text-teal-600 font-bold">Ask the computer...</p>
+                                        <p class="text-teal-600">Since there are no pairs in your hand, ask the computer if it has a matching card so you can try to find a pair.</p>
+                                        <div class="flex flex-wrap gap-3">
+                                            {% for each in session["player_hand"] %}
+                                                <button class="rounded bg-teal-700 hover:bg-teal-600 my-2 p-2">
+                                                    {% if each["point_value"] == 1 %}
+                                                        <a href="/request/1" class="basis-1/8">Do you have an Ace?</a>
+                                                    {% elif each["point_value"] == 13 %}
+                                                        <a href="/request/13" class="basis-1/8">Do you have a King?</a>
+                                                    {% elif each["point_value"] == 12 %}
+                                                        <a href="/request/12" class="basis-1/8">Do you have a Queen?</a>
+                                                    {% elif each["point_value"] == 11 %}
+                                                        <a href="/request/11" class="basis-1/8">Do you have a Jack?</a>
+                                                    {% else %}
+                                                        <a href="/request/{{each['point_value']}}" class="basis-1/8">Do you have a {{each["point_value"]}}?</a>
+                                                    {% endif %}
+                                                </button>
+                                            {% endfor %}
                                         </div>
+                                    </div>
+                                {% else %}
+                                    <p class="text-teal-600 font-bold">Ask the computer...</p>
+                                    <p class="text-teal-600">Since there are no pairs in your hand, ask the computer if it has a matching card so you can try to find a pair.</p>
+                                    <div class="flex flex-wrap gap-3">
+                                        {% for each in session["player_hand"] %}
+                                            <button class="rounded bg-teal-700 hover:bg-teal-600 my-2 p-2">
+                                                {% if each["point_value"] == 1 %}
+                                                    <a href="/request/1" class="basis-1/8">Do you have an Ace?</a>
+                                                {% elif each["point_value"] == 13 %}
+                                                    <a href="/request/13" class="basis-1/8">Do you have a King?</a>
+                                                {% elif each["point_value"] == 12 %}
+                                                    <a href="/request/12" class="basis-1/8">Do you have a Queen?</a>
+                                                {% elif each["point_value"] == 11 %}
+                                                    <a href="/request/11" class="basis-1/8">Do you have a Jack?</a>
+                                                {% else %}
+                                                    <a href="/request/{{each['point_value']}}" class="basis-1/8">Do you have a {{each["point_value"]}}?</a>
+                                                {% endif %}
+                                            </button>
+                                        {% endfor %}
                                     </div>
                                 {% endif %}
                             {% else %}
-                                <div class="computer_turn_over_message">
                                 <p class="text-teal-600 font-bold">Ask the computer...</p>
                                 <p class="text-teal-600">Since there are no pairs in your hand, ask the computer if it has a matching card so you can try to find a pair.</p>
                                 <div class="flex flex-wrap gap-3">
