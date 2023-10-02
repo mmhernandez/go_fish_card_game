@@ -98,18 +98,19 @@ class Game:
 
     @staticmethod
     def lay_down_pairs(hand, pair_list, deck):
-        new_pairs = []        
+        new_pair = []        
         # add pairs to the new_pairs list
-        new_pairs.append(pair_list[0])
-        new_pairs.append(pair_list[1])
+        new_pair.append(pair_list[0])
+        new_pair.append(pair_list[1])
 
         # remove paired cards from hand
+        #   create list of indexes that do not include the pair cards
         index_list = []
         for i in range(len(hand)):
             for j in range(len(pair_list)):
                 if hand[i]["suit"] == pair_list[j]["suit"] and hand[i]["face_value"] == pair_list[j]["face_value"]:
                     index_list.append(i)
-
+        #   add cards from index list to a new hand (which doesn't include pair cardss)
         new_hand = []
         for i in range(len(hand)):
             if i not in index_list:
@@ -117,14 +118,14 @@ class Game:
 
         updated_game_dict = {
             "hand": new_hand,
-            "pairs": new_pairs,
+            "pairs": new_pair,
             "deck": deck
         }
 
         #call method to draw from the deck
-        updated_cards = Game.draw_from_deck(new_hand, deck)
-        updated_game_dict["hand"]: updated_cards["hand"]
-        updated_game_dict["deck"]: updated_cards["deck"]
+        # updated_cards = Game.draw_from_deck(new_hand, deck)
+        # updated_game_dict["hand"]: updated_cards["hand"]
+        # updated_game_dict["deck"]: updated_cards["deck"]
         
         return updated_game_dict
 

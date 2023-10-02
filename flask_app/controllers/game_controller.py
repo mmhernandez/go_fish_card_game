@@ -32,7 +32,7 @@ def lay_down_pairs():
     req_form_pairs = []
     for each in request.form:
         req_form_pairs.append(each)
-    # format pair for model method logic
+    # format pair for logic
     card1_dict = {
         "suit": req_form_pairs[0][:1],
         "face_value": req_form_pairs[0][1:]
@@ -57,9 +57,7 @@ def lay_down_pairs():
 
     # do not allow duplication of cards when player refreshes and resubmits the form
     if "player_pairs" in session:
-        print('In test conditional...')
         hasPairs = game.Game.check_for_pairs(player_hand)
-
         player_pairs = session["player_pairs"]
         for i in range(len(player_pairs)):
             for j in range(len(pair_list)):
@@ -90,6 +88,20 @@ def lay_down_pairs():
     
     return render_template("index.html", hasPairs=hasPairs)
 
+
+@app.route("/draw")
+def draw_card():
+    player_hand = session["player_hand"]
+    deck = session["deck"]
+
+    updated_cards = game.Game.draw_from_deck(player_hand, deck)
+    
+    session["player_hand"] = updated_cards["hand"]
+    session["deck"] = updated_cards["deck"]
+
+    hasPairs = game.Game.check_for_pairs(updated_cards["hand"])
+
+    return render_template("index.html", hasPairs=hasPairs)
 
 @app.route("/request/<int:point_value>")
 def card_request(point_value):
