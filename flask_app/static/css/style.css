@@ -1,6 +1,37 @@
 #computer_turn_message {
-    background-color: blueviolet 2s;
-    color: hotpink;
-    content: "The computer did not have a matching card, and your turn is over. The computer has taken it's turn and it is your turn again!";
-    transition: 2s all;
+    animation-name: change-message;
+    animation-delay: 5s;
+    animation-duration: 5s;  
+    animation-fill-mode: forwards;
+}
+
+.computer_turn_over_message {
+    opacity: 0;
+    animation-name: change-2-message;
+    animation-delay: 10s;
+    animation-duration: 3s;  
+    animation-fill-mode: forwards;
+}
+
+.spin {
+    animation: spin 2s linear infinite;
+}
+
+@keyframes change-message {
+    /* 25% {opacity: .8%;}
+    50% {opacity: .5%;}
+    100% {opacity: 0; display: none;} */
+    to {opacity: 0; display: none;}
+}
+
+@keyframes change-2-message {
+    /* 50% {opacity: .5%;}
+    100% {opacity: 1;} */
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes spin {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
 }
