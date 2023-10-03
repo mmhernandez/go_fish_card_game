@@ -59,6 +59,30 @@ class Game:
                 lookup_dict[hand[i]["point_value"]] = i
         return flag
 
+    @staticmethod
+    def check_for_computer_pairs(hand):
+        hasPairs = False
+        pairs = []
+        lookup_dict = {}
+        for i in range(len(hand)):
+            if hand[i]["point_value"] in lookup_dict:
+                first_pair_card = hand[lookup_dict[hand[i]["point_value"]]]
+                pairs.append(first_pair_card)
+
+                current_pair_card = hand[i]
+                pairs.append(current_pair_card)
+
+                hasPairs = True
+                break
+            else:
+                lookup_dict[hand[i]["point_value"]] = i
+
+        result_dict = {
+            "hasPairs": hasPairs,
+            "pairs_list": pairs
+        }
+
+        return result_dict
 
     @staticmethod
     def lay_down_pairs_computer(hand, deck):
@@ -122,11 +146,6 @@ class Game:
             "deck": deck
         }
 
-        #call method to draw from the deck
-        # updated_cards = Game.draw_from_deck(new_hand, deck)
-        # updated_game_dict["hand"]: updated_cards["hand"]
-        # updated_game_dict["deck"]: updated_cards["deck"]
-        
         return updated_game_dict
 
 
@@ -174,21 +193,57 @@ class Game:
     @staticmethod
     def computer_turn(computer_hand, player_hand, deck):
         flag = True
-        # while loop until flag = False
-        #    if pairs exist, call lay_down_pairs_computer method -- continue until no pairs remain
-        #    if no pairs exist, use rand to select a random card from the player hand
-        #       if card available, restart loop
-        #       if no card available, exit loop
+        while (flag == True):
+            # loop through computer hand to determine if there are any pairs
+            # pairs = []
+            # lookup_dict = {}
+            # for i in range(len(computer_hand)):
+            #     if computer_hand[i]["point_value"] in lookup_dict:
+            #         first_pair_card = computer_hand[lookup_dict[computer_hand[i]["point_value"]]]
+            #         pairs.append(first_pair_card)
 
+            #         current_pair_card = computer_hand[i]
+            #         pairs.append(current_pair_card)
+                    
+            #         del lookup_dict[first_pair_card["point_value"]]
+            #         break
+            #     else:
+            #         lookup_dict[computer_hand[i]["point_value"]] = i
+            
 
-        rand = random.randint(0,len(computer_hand))
-        rand_point_value = computer_hand[rand]
+            #check for pairs in computer hand
+            pairs_check_dict = Game.check_for_computer_pairs(computer_hand)
+            # if there are pairs, lay them down
+            if(pairs_check_dict["hasPairs"]):
+                updated_cards_dict = Game.lay_down_pairs(computer_hand, pairs_check_dict["pairs_list"], deck)
 
-        print(f'rand = {rand}')
-        print(f'rand_point_value = {rand_point_value}')
+                computer_hand = updated_cards_dict["hand"]
+                computer_pairs = updated_cards_dict["pairs"]
+                deck = updated_cards_dict["deck"]
+
+            # if no pairs, check player hand for possible pair
+            else:
+                # pick random card in computer's hand
+                rand = random.randint(0,len(computer_hand))
+                rand_point_value = computer_hand[rand]
+
+                print(f'rand = {rand}')
+                print(f'rand_point_value = {rand_point_value}')
+
+                # check if a match is available in the player hand
+                result = Game.check_hand_for_card(computer_hand, player_hand, rand_point_value)
+                # if match found, take card from player, lay down pairs, and draw from deck
+                if result["flag"]:
+                    pass
+                #   if no match found, set flag to false to end computer turn
+                else:
+                    flag = False
+
+        
 
         result_game_dict = {
             "computer_hand": computer_hand,
+            "computer_pairs": computer_pairs,
             "player_hand": player_hand,
             "deck": deck
         }
