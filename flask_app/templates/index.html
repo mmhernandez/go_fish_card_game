@@ -116,17 +116,29 @@
                     </div>
                     {% endif %}
                 {% endif %}
+
                 {% if "player_pairs" in session %}
                     {% if (session["player_pairs"]|length / 2)|int == 1  %}
                         <p class="text-lg font-bold mt-6">Your collected pairs ({{(session["player_pairs"]|length / 2)|int}} pair):</p>
                     {% else %}
                         <p class="text-lg font-bold mt-6">Your collected pairs ({{(session["player_pairs"]|length / 2)|int}} pairs):</p>
                     {% endif %}
-                    <div class="flex flex-wrap gap-1 text-lg text-center font-bold rounded-lg">
+
+                    <!-- masked cards -->
+                    <div class="rounded-lg flex gap-1">
                         {% for each_card in session["player_pairs"] %}
                             {% if loop.index0 == 0 %}
-                                <div class="w-24 h-32 mb-1 rounded-lg bg-gray-300"></div>
-                            {% elif loop.index0 % 2 == 0 %}
+                                <div class="w-24 h-32 mb-1 rounded-lg bg-gradient-to-r from-sky-500 to-sky-800 shadow-sm shadow-sky-800">
+                                </div>
+                            {% else %}
+                                <div class="w-24 h-32 mb-1 -ms-20 rounded-lg bg-gradient-to-r from-sky-500 to-sky-800 shadow-sm shadow-sky-800">
+                                </div>
+                            {% endif %}
+                        {% endfor %}   
+                    </div>
+                    <!-- <div class="flex flex-wrap gap-1 text-lg text-center font-bold bg-red-600">
+                        {% for each_card in session["player_pairs"] %}
+                            {% if loop.index0 == 0 or loop.index0 % 2 == 0 %}
                                 <div class="w-24 h-32 mb-1 rounded-lg bg-gray-300"></div>
                             {% else %}
                                 {% if each_card.suit == "♦" %}
@@ -137,8 +149,8 @@
                                     <div class="w-24 h-32 mb-1 -ms-20 mt-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-gray-500 text-2xl">{{each_card.suit}}</span> </div>
                                 {% else %}
                                     <div class="w-24 h-32 mb-1 -ms-20 mt-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
-                                {% endif %}
-                            {% endif %}
+                                {% endif %} -->
+                            <!-- {% endif %} -->
                             <!-- troubleshooting -->
                             <!-- {% if each_card.suit == "♦" %}
                                 <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </div>
@@ -149,8 +161,8 @@
                             {% else %}
                                 <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
                             {% endif %} -->
-                        {% endfor %}
-                    </div>
+                        <!-- {% endfor %}
+                    </div> -->
                 {% endif %}
             </div>
         

@@ -174,7 +174,7 @@ class Game:
     @staticmethod
     def computer_turn(computer_hand, player_hand, deck):
         flag = True
-        # while loop until flag = Flase
+        # while loop until flag = False
         #    if pairs exist, call lay_down_pairs_computer method -- continue until no pairs remain
         #    if no pairs exist, use rand to select a random card from the player hand
         #       if card available, restart loop
