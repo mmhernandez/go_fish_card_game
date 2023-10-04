@@ -87,44 +87,7 @@ class Game:
             "hasPairs": hasPairs,
             "pairs_list": pairs
         }
-
         return result_dict
-
-
-    @staticmethod
-    def lay_down_pairs_computer(hand, deck):
-        pairs = []
-        lookup_dict = {}
-        for i in range(len(hand)):
-            if hand[i]["point_value"] in lookup_dict:
-                first_pair_card = hand[lookup_dict[hand[i]["point_value"]]]
-                pairs.append(first_pair_card)
-
-                current_pair_card = hand[i]
-                pairs.append(current_pair_card)
-                
-                del lookup_dict[first_pair_card["point_value"]]
-
-            else:
-                lookup_dict[hand[i]["point_value"]] = i
-
-        new_hand = []
-        for value in lookup_dict.values():
-            new_hand.append(hand[value])
-
-        updated_game_dict = {
-            "hand": new_hand,
-            "pairs": pairs,
-            "deck": deck
-        }
-
-        #call method to draw from the deck
-        if len(pairs) > 0:
-            updated_cards = Game.draw_from_deck(new_hand, deck)
-            updated_game_dict["hand"]: updated_cards["hand"]
-            updated_game_dict["deck"]: updated_cards["deck"]
-        
-        return updated_game_dict
     
 
     @staticmethod
@@ -237,7 +200,7 @@ class Game:
                         deck = updated_computer_hand_dict["deck"]
                         print(f'Updated computer hand size: {len(computer_hand)}')
 
-                #   if no match found, set flag to false to end computer turn
+                # if no match found, set flag to false to end computer turn
                 else:
                     print(f'No match found in player hand')
                     flag = False

@@ -17,7 +17,6 @@ def start_game():
     message = "The game has begun, and you're up first!"
 
     hasPairs = game.Game.check_for_pairs(game_dict["player_hand"])
-
     return render_template("index.html", message=message, hasPairs=hasPairs)
 
 
@@ -50,7 +49,6 @@ def lay_down_pairs():
         message = "Pairs of cards must have the same face value."
         return render_template("index.html", message=message, hasPairs=True, color="red")
 
-
     # if the pair is valid, proceed with setting session variables and calling lay_down_pairs method
     player_hand = session["player_hand"]
     deck = session["deck"]
@@ -72,20 +70,8 @@ def lay_down_pairs():
         session["player_pairs"] = player_pairs
     else:
         session["player_pairs"] = updated_player_game_dict["pairs"]
-
-    # updated_computer_game_dict = game.Game.lay_down_pairs(computer_hand, updated_player_game_dict["deck"])
-    # session["computer_hand"] = updated_computer_game_dict["hand"]
-    # if "computer_pairs" in session:
-    #     computer_pairs.extend(updated_computer_game_dict["pairs"])
-    #     session["computer_pairs"] = computer_pairs
-    # else:
-    #     session["computer_pairs"] = updated_computer_game_dict["pairs"]
-    # session["deck"] = updated_computer_game_dict["deck"]
-    
-    # session["computer_hand"] = computer_hand
     
     hasPairs = game.Game.check_for_pairs(updated_player_game_dict["hand"])
-    
     return render_template("index.html", hasPairs=hasPairs)
 
 
@@ -95,13 +81,12 @@ def draw_card():
     deck = session["deck"]
 
     updated_cards = game.Game.draw_from_deck(player_hand, deck)
-    
     session["player_hand"] = updated_cards["hand"]
     session["deck"] = updated_cards["deck"]
 
     hasPairs = game.Game.check_for_pairs(updated_cards["hand"])
-
     return render_template("index.html", hasPairs=hasPairs)
+
 
 @app.route("/request/<int:point_value>")
 def card_request(point_value):
@@ -138,7 +123,6 @@ def card_request(point_value):
     # if the computer has a matching point value card, pass to the player's hand
     else:
         message = "The computer had a match!"
-
         computer_draw_dict = game.Game.draw_from_deck(result["check_hand"], result["deck"])
 
         session["player_hand"] = result["request_hand"]
