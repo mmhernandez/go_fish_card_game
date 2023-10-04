@@ -109,27 +109,41 @@ def card_request(point_value):
     computer_hand = session["computer_hand"]
     deck = session["deck"]
 
+    # check computer hand for requested card's point value
     result = game.Game.check_hand_for_card(player_hand, computer_hand, point_value, deck)
 
-    if not result["flag"]:
+    # if the computer doesn't have a match, the computer will take a turn
+    if not result["hasMatch"]:
         message = "The computer did not have a matching card. Your turn is over and the computer will take a turn."
 
         player_hand = result["request_hand"]
         computer_hand = result["check_hand"]
         deck = result["deck"]
 
-        computer_turn_result = game.Game.computer_turn(computer_hand, player_hand, deck)
+        if "computer_pairs" in session:
+            computer_pairs = session["computer_pairs"]
+        else:
+            computer_pairs = []
+
+        computer_turn_result = game.Game.computer_turn(computer_hand, computer_pairs, player_hand, deck)
 
         session["player_hand"] = computer_turn_result["player_hand"]
         session["computer_hand"] = computer_turn_result["computer_hand"]
         session["deck"] = computer_turn_result["deck"]
+        if len(computer_pairs) > 0:
+            session["computer_pairs"] = computer_turn_result["computer_pairs"]
+
         hasPairs = game.Game.check_for_pairs(computer_turn_result["player_hand"])
 
+    # if the computer has a matching point value card, pass to the player's hand
     else:
         message = "The computer had a match!"
+
+        computer_draw_dict = game.Game.draw_from_deck(result["check_hand"], result["deck"])
+
         session["player_hand"] = result["request_hand"]
-        session["computer_hand"] = result["check_hand"]
-        session["deck"] = result["deck"]
+        session["computer_hand"] = computer_draw_dict["hand"]
+        session["deck"] = computer_draw_dict["deck"]
         hasPairs = game.Game.check_for_pairs(result["request_hand"])
         
     return render_template("index.html", hasPairs=hasPairs, message=message)
