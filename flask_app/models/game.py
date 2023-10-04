@@ -64,7 +64,10 @@ class Game:
         hasPairs = False
         pairs = []
         lookup_dict = {}
+
+        # loop through the hand
         for i in range(len(hand)):
+            # if the iterated card's point matches a point value in the lookup dict, add the pair of cards to the pairs list
             if hand[i]["point_value"] in lookup_dict:
                 first_pair_card = hand[lookup_dict[hand[i]["point_value"]]]
                 pairs.append(first_pair_card)
@@ -74,6 +77,7 @@ class Game:
 
                 hasPairs = True
                 break
+            # if not match found, add the iterated card's point value to the lookup dict
             else:
                 lookup_dict[hand[i]["point_value"]] = i
 
@@ -81,7 +85,7 @@ class Game:
             "hasPairs": hasPairs,
             "pairs_list": pairs
         }
-
+        
         return result_dict
 
     @staticmethod
