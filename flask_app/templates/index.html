@@ -22,20 +22,20 @@
                 </p>
             </div>
             {% if "deck" in session %}
-            <div class="basis-52">
-                <!-- Button to trigger cancellation confirmation -->
-                <button type="button" class="rounded bg-zinc-700 text-red-600 hover:bg-red-600 hover:text-gray-50 p-2" id="cancel-button">Cancel Game</button>
-                <!-- Cancellation confirmation  -->
-                <div id="confirm-cancel" class="hidden p-2">
-                    <p class="text-red-500">Are you sure?</p>
-                    <div class="">
-                        <button type="button" class="rounded bg-red-950 hover:bg-gray-700 my-1 p-2" id="cancel">Don't cancel</button>
-                        <button type="button" class="rounded bg-red-900 hover:bg-gray-600 hover:text-red-400 my-1 p-2" id="confirm-button">
-                            <a href="/clear">Yes, cancel</a>
-                        </button>
+                <div class="basis-52">
+                    <!-- Button to trigger cancellation confirmation -->
+                    <button type="button" class="rounded bg-zinc-700 text-red-600 hover:bg-red-600 hover:text-gray-50 p-2" id="cancel-button">Cancel Game</button>
+                    <!-- Cancellation confirmation  -->
+                    <div id="confirm-cancel" class="hidden p-2">
+                        <p class="text-red-500">Are you sure?</p>
+                        <div class="">
+                            <button type="button" class="rounded bg-red-950 hover:bg-gray-700 my-1 p-2" id="cancel">Don't cancel</button>
+                            <button type="button" class="rounded bg-red-900 hover:bg-gray-600 hover:text-red-400 my-1 p-2" id="confirm-button">
+                                <a href="/clear">Yes, cancel</a>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endif %}
         </div>
         {% if "player_hand" not in session %}
@@ -47,62 +47,282 @@
         {% endif %}
     </section>
 
-    <!-- player -->
-    <form action="/pairs" method="post">            
-        <div class="flex gap-5 mt-6">
-            <!-- player hand -->
-            <div class="basis-1/2">
-                {% if "player_hand" in session %}
-                    <p class="text-lg font-bold">Your hand ({{session["player_hand"]|length}} cards):</p>
-                    {% if hasPairs %}
-                        <ul class="flex flex-wrap gap-1 text-lg text-center font-bold rounded-lg">
-                            {% for each_card in session["player_hand"] %}
-                                {% if each_card.suit == "♦" %}
-                                <li class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg">
-                                    <input type="checkbox" id="{{each_card.suit}}{{each_card.face_value}}" name="{{each_card.suit}}{{each_card.face_value}}" class="hidden peer">
-                                    <label for="{{each_card.suit}}{{each_card.face_value}}" class="text-gray-900 cursor-pointer peer-checked:text-violet-500 peer-checked:text-3xl">                           
-                                        <div class="py-8 block rounded-lg shadow-lg bg-gray-300 hover:text-violet-500 hover:text-3xl">
-                                            {{each_card.face_value}}<br>
-                                            <span class="text-red-700 text-2xl">{{each_card.suit}}</span>
+    <section>
+        {% if session["game_over"] %}
+            <div class="mt-3 flex justify-center flex-col items-center">
+                <div>
+                    <button class="rounded bg-red-500 hover:bg-red-600 my-2 p-2">
+                        <a href="/start_game">New Game</a>
+                    </button>
+                </div>
+                <p class="text-center">Test</p>
+            </div>
+        {% else %}
+            <!-- player -->
+            <form action="/pairs" method="post">            
+                <div class="flex gap-5 mt-6">
+                    <!-- player hand -->
+                    <div class="basis-1/2">
+                        {% if "player_hand" in session %}
+                            <p class="text-lg font-bold">Your hand ({{session["player_hand"]|length}} cards):</p>
+                            {% if hasPairs %}
+                                <ul class="flex flex-wrap gap-1 text-lg text-center font-bold rounded-lg">
+                                    {% for each_card in session["player_hand"] %}
+                                        {% if each_card.suit == "♦" %}
+                                        <li class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg">
+                                            <input type="checkbox" id="{{each_card.suit}}{{each_card.face_value}}" name="{{each_card.suit}}{{each_card.face_value}}" class="hidden peer">
+                                            <label for="{{each_card.suit}}{{each_card.face_value}}" class="text-gray-900 cursor-pointer peer-checked:text-violet-500 peer-checked:text-3xl">                           
+                                                <div class="py-8 block rounded-lg shadow-lg bg-gray-300 hover:text-violet-500 hover:text-3xl">
+                                                    {{each_card.face_value}}<br>
+                                                    <span class="text-red-700 text-2xl">{{each_card.suit}}</span>
+                                                </div>
+                                            </label>
+                                        </li>
+                                        {% elif each_card.suit == "♥" %}
+                                        <li class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg">
+                                            <input type="checkbox" id="{{each_card.suit}}{{each_card.face_value}}" name="{{each_card.suit}}{{each_card.face_value}}" class="hidden peer">
+                                            <label for="{{each_card.suit}}{{each_card.face_value}}" class="text-gray-900 cursor-pointer peer-checked:text-violet-500 peer-checked:text-3xl">                           
+                                                <div class="py-8 block rounded-lg shadow-lg bg-gray-300 hover:text-violet-500 hover:text-3xl">
+                                                    {{each_card.face_value}}<br>
+                                                    <span class="text-rose-600 text-2xl">{{each_card.suit}}</span>
+                                                </div>
+                                            </label>
+                                        </li>
+                                        {% elif each_card.suit == "♣" %}
+                                        <li class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg">
+                                            <input type="checkbox" id="{{each_card.suit}}{{each_card.face_value}}" name="{{each_card.suit}}{{each_card.face_value}}" class="hidden peer">
+                                            <label for="{{each_card.suit}}{{each_card.face_value}}" class="text-gray-900 cursor-pointer peer-checked:text-violet-500 peer-checked:text-3xl">                           
+                                                <div class="py-8 block rounded-lg shadow-lg bg-gray-300 hover:text-violet-500 hover:text-3xl">
+                                                    {{each_card.face_value}}<br>
+                                                        <span class="text-gray-500 text-2xl">{{each_card.suit}}</span>
+                                                    </div>
+                                                </label>
+                                            </li>
+                                        {% else %}
+                                        <li class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg">
+                                            <input type="checkbox" id="{{each_card.suit}}{{each_card.face_value}}" name="{{each_card.suit}}{{each_card.face_value}}" class="hidden peer">
+                                            <label for="{{each_card.suit}}{{each_card.face_value}}" class="text-gray-900 cursor-pointer peer-checked:text-violet-500 peer-checked:text-3xl">                           
+                                                <div class="py-8 block rounded-lg shadow-lg bg-gray-300 hover:text-violet-500 hover:text-3xl">
+                                                    {{each_card.face_value}}<br>
+                                                        <span class="text-zinc-700 text-2xl">{{each_card.suit}}</span>
+                                                    </div>
+                                            </label>
+                                        </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                            <div class="flex flex-wrap gap-1 text-lg text-center font-bold rounded-lg">
+                                {% for each_card in session["player_hand"] %}
+                                    {% if each_card.suit == "♦" %}
+                                        <div class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg py-8 shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </div>
+                                    {% elif each_card.suit == "♥" %}
+                                        <div class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg py-8 shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-rose-600 text-2xl">{{each_card.suit}}</span> </div>
+                                    {% elif each_card.suit == "♣" %}
+                                        <div class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg py-8 shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-gray-500 text-2xl">{{each_card.suit}}</span> </div>
+                                    {% else %}
+                                        <div class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg py-8 shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        {% endif %}
+
+                        {% if "player_pairs" in session %}
+                            {% if (session["player_pairs"]|length / 2)|int == 1  %}
+                                <p class="text-lg font-bold mt-6">Your collected pairs ({{(session["player_pairs"]|length / 2)|int}} pair):</p>
+                            {% else %}
+                                <p class="text-lg font-bold mt-6">Your collected pairs ({{(session["player_pairs"]|length / 2)|int}} pairs):</p>
+                            {% endif %}
+
+                            <!-- masked cards -->
+                            <!-- <div class="rounded-lg flex gap-1">
+                                {% for each_card in session["player_pairs"] %}
+                                    {% if loop.index0 == 0 %}
+                                        <div class="w-24 h-32 mb-1 rounded-lg bg-gradient-to-r from-sky-500 to-sky-800 shadow-sm shadow-sky-800">
                                         </div>
-                                    </label>
-                                </li>
-                                {% elif each_card.suit == "♥" %}
-                                <li class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg">
-                                    <input type="checkbox" id="{{each_card.suit}}{{each_card.face_value}}" name="{{each_card.suit}}{{each_card.face_value}}" class="hidden peer">
-                                    <label for="{{each_card.suit}}{{each_card.face_value}}" class="text-gray-900 cursor-pointer peer-checked:text-violet-500 peer-checked:text-3xl">                           
-                                        <div class="py-8 block rounded-lg shadow-lg bg-gray-300 hover:text-violet-500 hover:text-3xl">
-                                            {{each_card.face_value}}<br>
-                                            <span class="text-rose-600 text-2xl">{{each_card.suit}}</span>
+                                    {% else %}
+                                        <div class="w-24 h-32 mb-1 -ms-20 rounded-lg bg-gradient-to-r from-sky-500 to-sky-800 shadow-sm shadow-sky-800">
                                         </div>
-                                    </label>
-                                </li>
-                                {% elif each_card.suit == "♣" %}
-                                <li class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg">
-                                    <input type="checkbox" id="{{each_card.suit}}{{each_card.face_value}}" name="{{each_card.suit}}{{each_card.face_value}}" class="hidden peer">
-                                    <label for="{{each_card.suit}}{{each_card.face_value}}" class="text-gray-900 cursor-pointer peer-checked:text-violet-500 peer-checked:text-3xl">                           
-                                        <div class="py-8 block rounded-lg shadow-lg bg-gray-300 hover:text-violet-500 hover:text-3xl">
-                                            {{each_card.face_value}}<br>
-                                                <span class="text-gray-500 text-2xl">{{each_card.suit}}</span>
-                                            </div>
-                                        </label>
-                                    </li>
+                                    {% endif %}
+                                {% endfor %}   
+                            </div> -->
+                            <div class="flex flex-wrap gap-1 text-lg text-center font-bold">
+                                {% for each_card in session["player_pairs"] %}
+                                    {% if loop.index0 == 0 or loop.index0 % 2 == 0 %}
+                                        <div class="w-24 h-32 mb-1 rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-800 shadow-sm shadow-yellow-800"></div>
+                                    {% else %}
+                                        {% if each_card.suit == "♦" %}
+                                            <div class="w-24 h-32 mb-1 -ms-24 mt-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </div>
+                                        {% elif each_card.suit == "♥" %}
+                                            <div class="w-24 h-32 mb-1 -ms-24 mt-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-rose-600 text-2xl">{{each_card.suit}}</span> </div>
+                                        {% elif each_card.suit == "♣" %}
+                                            <div class="w-24 h-32 mb-1 -ms-24 mt-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-gray-500 text-2xl">{{each_card.suit}}</span> </div>
+                                        {% else %}
+                                            <div class="w-24 h-32 mb-1 -ms-24 mt-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
+                                        {% endif %}
+                                    {% endif %}
+                                    <!-- troubleshooting -->
+                                    <!-- {% if each_card.suit == "♦" %}
+                                        <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </div>
+                                    {% elif each_card.suit == "♥" %}
+                                        <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-rose-600 text-2xl">{{each_card.suit}}</span> </div>
+                                    {% elif each_card.suit == "♣" %}
+                                        <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-gray-500 text-2xl">{{each_card.suit}}</span> </div>
+                                    {% else %}
+                                        <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
+                                    {% endif %} -->
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                
+                    <!-- actions -->
+                    <div class="basis-1/2">
+                        {% if "player_hand"  in session %}
+                            <div class="flex gap-3 items-end">
+                                <p class="text-lg font-bold">Player Actions:</p>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1.9em" viewBox="0 0 512 512" class="animate-bounce">
+                                    <style>svg{fill:#6B7280}</style>
+                                    <path d="M256 0a256 256 0 1 0 0 512A256 256 0 1 0 256 0zM127 281c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l71 71L232 136c0-13.3 10.7-24 24-24s24 10.7 24 24l0 182.1 71-71c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9L273 393c-9.4 9.4-24.6 9.4-33.9 0L127 281z" class="bg-gray-50"/>
+                                </svg>
+                            </div>
+                            {% if message %}
+                                {% if message == "The computer did not have a matching card. Your turn is over and the computer will take a turn." %}
+                                    <div class="p-3 my-3 rounded bg-yellow-600 text-xl mx-auto" id="computer_turn_message">
+                                        
+                                            {{message}} 
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="1.8em" viewBox="0 0 512 512" class="spin mt-2">
+                                                <style>svg{fill:#ffffff}</style>
+                                                <path d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"/>
+                                            </svg>
+                                        
+                                    </div>
+                                    <div class="p-3 my-3 rounded bg-gray-600 border border-b-2 border-r-2 border-yellow-400 text-yellow-500 text-xl mx-auto computer_turn_over_message">
+                                        The computer has taken it's turn and it is your turn again!
+                                    </div>
+                                {% elif color == "red" %}
+                                    <div class="p-3 my-3 rounded bg-gray-300 text-red-600 text-xl mx-auto">
+                                        {{message}}
+                                    </div>
                                 {% else %}
-                                <li class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg">
-                                    <input type="checkbox" id="{{each_card.suit}}{{each_card.face_value}}" name="{{each_card.suit}}{{each_card.face_value}}" class="hidden peer">
-                                    <label for="{{each_card.suit}}{{each_card.face_value}}" class="text-gray-900 cursor-pointer peer-checked:text-violet-500 peer-checked:text-3xl">                           
-                                        <div class="py-8 block rounded-lg shadow-lg bg-gray-300 hover:text-violet-500 hover:text-3xl">
-                                            {{each_card.face_value}}<br>
-                                                <span class="text-zinc-700 text-2xl">{{each_card.suit}}</span>
-                                            </div>
-                                    </label>
-                                </li>
+                                    <div class="p-3 my-3 rounded bg-gray-600 border border-b-2 border-r-2 border-yellow-400 text-yellow-500 text-xl mx-auto">
+                                        {{message}}
+                                    </div>
                                 {% endif %}
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                    <div class="flex flex-wrap gap-1 text-lg text-center font-bold rounded-lg">
-                        {% for each_card in session["player_hand"] %}
+                            {% endif %}
+                        
+                            {% if (session["player_hand"]|length < 7) and (session["deck"]|length > (7 - session["player_hand"]|length)) %}
+                                <p class="text-green-600 mb-4">You need 7 cards in your hand to play the game, click the button below to draw from the deck.</p>
+                                <a href="/draw" class="button rounded bg-green-700 hover:bg-green-600 my-2 p-2">Draw from deck</a>
+                            {% else %}
+                                {% if hasPairs %}
+                                    {% if message %}
+                                        {% if message == "The computer did not have a matching card. Your turn is over and the computer will take a turn." %}
+                                            <div class="computer_turn_over_message">
+                                                <p class="text-violet-500">Lay down pairs of cards in your hand by highlighting them and clicking the button below.</p>
+                                                <div>
+                                                    <input type="submit" value="Lay Down Pairs" class="rounded bg-violet-500 hover:bg-violet-600 my-2 p-2 cursor-pointer">
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            <p class="text-violet-500">Lay down pairs of cards in your hand by highlighting them and clicking the button below.</p>
+                                            <div>
+                                                <input type="submit" value="Lay Down Pairs" class="rounded bg-violet-500 hover:bg-violet-600 my-2 p-2 cursor-pointer">
+                                            </div>
+                                        {% endif %}
+                                    {% else %}
+                                        <p class="text-violet-500">Lay down pairs of cards in your hand by highlighting them and clicking the button below.</p>
+                                        <div>
+                                            <input type="submit" value="Lay Down Pairs" class="rounded bg-violet-500 hover:bg-violet-600 my-2 p-2 cursor-pointer">
+                                        </div>
+                                    {% endif %}
+                                {% else %}
+                                    {% if message %}
+                                        {% if message == "The computer did not have a matching card. Your turn is over and the computer will take a turn." %}
+                                            <div class="computer_turn_over_message">
+                                                <p class="text-teal-600 font-bold">Ask the computer...</p>
+                                                <p class="text-teal-600">Since there are no pairs in your hand, ask the computer if it has a matching card so you can try to find a pair.</p>
+                                                <div class="flex flex-wrap gap-3 mt-4">
+                                                    {% for each in session["player_hand"] %}
+                                                        {% if each["point_value"] == 1 %}
+                                                            <a href="/request/1" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have an Ace?</a>
+                                                        {% elif each["point_value"] == 13 %}
+                                                            <a href="/request/13" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a King?</a>
+                                                        {% elif each["point_value"] == 12 %}
+                                                            <a href="/request/12" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a Queen?</a>
+                                                        {% elif each["point_value"] == 11 %}
+                                                            <a href="/request/11" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a Jack?</a>
+                                                        {% else %}
+                                                            <a href="/request/{{each['point_value']}}" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a {{each["point_value"]}}?</a>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            <p class="text-teal-600 font-bold">Ask the computer...</p>
+                                            <p class="text-teal-600">Since there are no pairs in your hand, ask the computer if it has a matching card so you can try to find a pair.</p>
+                                            <div class="flex flex-wrap gap-3">
+                                                {% for each in session["player_hand"] %}
+                                                    {% if each["point_value"] == 1 %}
+                                                        <a href="/request/1" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have an Ace?</a>
+                                                    {% elif each["point_value"] == 13 %}
+                                                        <a href="/request/13" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a King?</a>
+                                                    {% elif each["point_value"] == 12 %}
+                                                        <a href="/request/12" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a Queen?</a>
+                                                    {% elif each["point_value"] == 11 %}
+                                                        <a href="/request/11" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a Jack?</a>
+                                                    {% else %}
+                                                        <a href="/request/{{each['point_value']}}" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a {{each["point_value"]}}?</a>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    {% else %}
+                                        <p class="text-teal-600 font-bold">Ask the computer...</p>
+                                        <p class="text-teal-600">Since there are no pairs in your hand, ask the computer if it has a matching card so you can try to find a pair.</p>
+                                        <div class="flex flex-wrap gap-3">
+                                            {% for each in session["player_hand"] %}
+                                                {% if each["point_value"] == 1 %}
+                                                    <a href="/request/1" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have an Ace?</a>
+                                                {% elif each["point_value"] == 13 %}
+                                                    <a href="/request/13" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a King?</a>
+                                                {% elif each["point_value"] == 12 %}
+                                                    <a href="/request/12" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a Queen?</a>
+                                                {% elif each["point_value"] == 11 %}
+                                                    <a href="/request/11" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a Jack?</a>
+                                                {% else %}
+                                                    <a href="/request/{{each['point_value']}}" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a {{each["point_value"]}}?</a>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+
+            <!-- computer hand -->
+            <div class="basis-1/2 mt-14">
+                {% if "computer_hand" in session %}
+                    <p class="text-lg font-bold">Computer hand ({{(session["computer_hand"]|length)}} cards):</p>
+                    <!-- mask cards in computer hand -->
+                    <div class="rounded-lg flex flex-wrap gap-2">
+                        {% for each_card in session["computer_hand"] %}
+                            {% if loop.index0 == 0 %}
+                                <div class="w-24 h-32 mb-1 rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-800 shadow-sm shadow-yellow-800">
+                                </div>
+                            {% else %}
+                                <div class="w-24 h-32 mb-1 -ms-20 rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-800 shadow-sm shadow-yellow-800">
+                                </div>
+                            {% endif %}
+                        {% endfor %}   
+                    </div>
+                    <!-- troubleshooting -->
+                    <!-- <div class="flex flex-wrap gap-1 text-lg text-center font-bold rounded-lg">
+                        {% for each_card in session["computer_hand"] %}
                             {% if each_card.suit == "♦" %}
                                 <div class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg py-8 shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </div>
                             {% elif each_card.suit == "♥" %}
@@ -113,20 +333,17 @@
                                 <div class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg py-8 shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
                             {% endif %}
                         {% endfor %}
-                    </div>
-                    {% endif %}
+                    </div> -->
                 {% endif %}
-
-                {% if "player_pairs" in session %}
-                    {% if (session["player_pairs"]|length / 2)|int == 1  %}
-                        <p class="text-lg font-bold mt-6">Your collected pairs ({{(session["player_pairs"]|length / 2)|int}} pair):</p>
+                {% if "computer_pairs" in session %}
+                    {% if (session["computer_pairs"]|length / 2)|int == 1  %}
+                        <p class="text-lg font-bold mt-6">Computer's collected pairs ({{(session["computer_pairs"]|length / 2)|int}} pair):</p>
                     {% else %}
-                        <p class="text-lg font-bold mt-6">Your collected pairs ({{(session["player_pairs"]|length / 2)|int}} pairs):</p>
+                        <p class="text-lg font-bold mt-6">Computer's collected pairs ({{(session["computer_pairs"]|length / 2)|int}} pairs):</p>
                     {% endif %}
-
                     <!-- masked cards -->
                     <!-- <div class="rounded-lg flex gap-1">
-                        {% for each_card in session["player_pairs"] %}
+                        {% for each_card in session["computer_pairs"] %}
                             {% if loop.index0 == 0 %}
                                 <div class="w-24 h-32 mb-1 rounded-lg bg-gradient-to-r from-sky-500 to-sky-800 shadow-sm shadow-sky-800">
                                 </div>
@@ -137,7 +354,7 @@
                         {% endfor %}   
                     </div> -->
                     <div class="flex flex-wrap gap-1 text-lg text-center font-bold">
-                        {% for each_card in session["player_pairs"] %}
+                        {% for each_card in session["computer_pairs"] %}
                             {% if loop.index0 == 0 or loop.index0 % 2 == 0 %}
                                 <div class="w-24 h-32 mb-1 rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-800 shadow-sm shadow-yellow-800"></div>
                             {% else %}
@@ -165,244 +382,43 @@
                     </div>
                 {% endif %}
             </div>
-        
-            <!-- actions -->
-            <div class="basis-1/2">
-                {% if "player_hand"  in session %}
-                    <div class="flex gap-3 items-end">
-                        <p class="text-lg font-bold">Player Actions:</p>
-                        <svg xmlns="http://www.w3.org/2000/svg" height="1.9em" viewBox="0 0 512 512" class="animate-bounce">
-                            <style>svg{fill:#6B7280}</style>
-                            <path d="M256 0a256 256 0 1 0 0 512A256 256 0 1 0 256 0zM127 281c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l71 71L232 136c0-13.3 10.7-24 24-24s24 10.7 24 24l0 182.1 71-71c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9L273 393c-9.4 9.4-24.6 9.4-33.9 0L127 281z" class="bg-gray-50"/>
-                        </svg>
+
+            <!-- remaining deck -->
+            <div class="mt-14">
+                {% if "deck" in session %}
+                    <p class="text-lg font-bold">Deck ({{session["deck"]|length}} cards):</p>
+                    <div class="rounded-lg flex flex-wrap gap-2">
+                        {% for each_card in session["deck"] %}
+                            {% if loop.index0 == 0 %}
+                                <div class="w-24 h-32 mb-1 rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-800 shadow-sm shadow-yellow-800">
+                                </div>
+                            {% else %}
+                                <div class="w-24 h-32 mb-1 -ms-20 rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-800 shadow-sm shadow-yellow-800">
+                                </div>
+                            {% endif %}
+                        {% endfor %}   
                     </div>
-                    {% if message %}
-                        {% if message == "The computer did not have a matching card. Your turn is over and the computer will take a turn." %}
-                            <div class="p-3 my-3 rounded bg-yellow-600 text-xl mx-auto" id="computer_turn_message">
-                                
-                                    {{message}} 
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="1.8em" viewBox="0 0 512 512" class="spin mt-2">
-                                        <style>svg{fill:#ffffff}</style>
-                                        <path d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"/>
-                                    </svg>
-                                
-                            </div>
-                            <div class="p-3 my-3 rounded bg-gray-600 border border-b-2 border-r-2 border-yellow-400 text-yellow-500 text-xl mx-auto computer_turn_over_message">
-                                The computer has taken it's turn and it is your turn again!
-                            </div>
-                        {% elif color == "red" %}
-                            <div class="p-3 my-3 rounded bg-gray-300 text-red-600 text-xl mx-auto">
-                                {{message}}
-                            </div>
-                        {% else %}
-                            <div class="p-3 my-3 rounded bg-gray-600 border border-b-2 border-r-2 border-yellow-400 text-yellow-500 text-xl mx-auto">
-                                {{message}}
-                            </div>
-                        {% endif %}
-                    {% endif %}
-                
-                    {% if (session["player_hand"]|length < 7) and (session["deck"]|length > (7 - session["player_hand"]|length)) %}
-                        <p class="text-green-600 mb-4">You need 7 cards in your hand to play the game, click the button below to draw from the deck.</p>
-                        <a href="/draw" class="button rounded bg-green-700 hover:bg-green-600 my-2 p-2">Draw from deck</a>
-                    {% else %}
-                        {% if hasPairs %}
-                            {% if message %}
-                                {% if message == "The computer did not have a matching card. Your turn is over and the computer will take a turn." %}
-                                    <div class="computer_turn_over_message">
-                                        <p class="text-violet-500">Lay down pairs of cards in your hand by highlighting them and clicking the button below.</p>
-                                        <div>
-                                            <input type="submit" value="Lay Down Pairs" class="rounded bg-violet-500 hover:bg-violet-600 my-2 p-2 cursor-pointer">
-                                        </div>
-                                    </div>
-                                {% else %}
-                                    <p class="text-violet-500">Lay down pairs of cards in your hand by highlighting them and clicking the button below.</p>
-                                    <div>
-                                        <input type="submit" value="Lay Down Pairs" class="rounded bg-violet-500 hover:bg-violet-600 my-2 p-2 cursor-pointer">
-                                    </div>
-                                {% endif %}
+                    <!-- troubleshooting -->
+                    <!-- <div class="flex flex-wrap gap-1 text-lg text-center font-bold rounded-lg">
+                        {% for each_card in session["deck"] %}
+                            {% if each_card.suit == "♦" %}
+                                <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </div>
+                            {% elif each_card.suit == "♥" %}
+                                <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-rose-600 text-2xl">{{each_card.suit}}</span> </div>
+                            {% elif each_card.suit == "♣" %}
+                                <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-gray-500 text-2xl">{{each_card.suit}}</span> </div>
                             {% else %}
-                                <p class="text-violet-500">Lay down pairs of cards in your hand by highlighting them and clicking the button below.</p>
-                                <div>
-                                    <input type="submit" value="Lay Down Pairs" class="rounded bg-violet-500 hover:bg-violet-600 my-2 p-2 cursor-pointer">
-                                </div>
+                                <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
                             {% endif %}
-                        {% else %}
-                            {% if message %}
-                                {% if message == "The computer did not have a matching card. Your turn is over and the computer will take a turn." %}
-                                    <div class="computer_turn_over_message">
-                                        <p class="text-teal-600 font-bold">Ask the computer...</p>
-                                        <p class="text-teal-600">Since there are no pairs in your hand, ask the computer if it has a matching card so you can try to find a pair.</p>
-                                        <div class="flex flex-wrap gap-3 mt-4">
-                                            {% for each in session["player_hand"] %}
-                                                {% if each["point_value"] == 1 %}
-                                                    <a href="/request/1" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have an Ace?</a>
-                                                {% elif each["point_value"] == 13 %}
-                                                    <a href="/request/13" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a King?</a>
-                                                {% elif each["point_value"] == 12 %}
-                                                    <a href="/request/12" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a Queen?</a>
-                                                {% elif each["point_value"] == 11 %}
-                                                    <a href="/request/11" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a Jack?</a>
-                                                {% else %}
-                                                    <a href="/request/{{each['point_value']}}" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a {{each["point_value"]}}?</a>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                {% else %}
-                                    <p class="text-teal-600 font-bold">Ask the computer...</p>
-                                    <p class="text-teal-600">Since there are no pairs in your hand, ask the computer if it has a matching card so you can try to find a pair.</p>
-                                    <div class="flex flex-wrap gap-3">
-                                        {% for each in session["player_hand"] %}
-                                            {% if each["point_value"] == 1 %}
-                                                <a href="/request/1" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have an Ace?</a>
-                                            {% elif each["point_value"] == 13 %}
-                                                <a href="/request/13" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a King?</a>
-                                            {% elif each["point_value"] == 12 %}
-                                                <a href="/request/12" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a Queen?</a>
-                                            {% elif each["point_value"] == 11 %}
-                                                <a href="/request/11" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a Jack?</a>
-                                            {% else %}
-                                                <a href="/request/{{each['point_value']}}" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a {{each["point_value"]}}?</a>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            {% else %}
-                                <p class="text-teal-600 font-bold">Ask the computer...</p>
-                                <p class="text-teal-600">Since there are no pairs in your hand, ask the computer if it has a matching card so you can try to find a pair.</p>
-                                <div class="flex flex-wrap gap-3">
-                                    {% for each in session["player_hand"] %}
-                                        {% if each["point_value"] == 1 %}
-                                            <a href="/request/1" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have an Ace?</a>
-                                        {% elif each["point_value"] == 13 %}
-                                            <a href="/request/13" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a King?</a>
-                                        {% elif each["point_value"] == 12 %}
-                                            <a href="/request/12" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a Queen?</a>
-                                        {% elif each["point_value"] == 11 %}
-                                            <a href="/request/11" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a Jack?</a>
-                                        {% else %}
-                                            <a href="/request/{{each['point_value']}}" class="button rounded bg-teal-700 hover:bg-teal-600 my-2 p-2 basis-1/8">Do you have a {{each["point_value"]}}?</a>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        {% endif %}
-                    {% endif %}
+                        {% endfor %}
+                    </div> -->
                 {% endif %}
             </div>
-        </div>
-    </form>
 
-    <!-- computer hand -->
-    <div class="basis-1/2 mt-14">
-        {% if "computer_hand" in session %}
-            <p class="text-lg font-bold">Computer hand ({{(session["computer_hand"]|length)}} cards):</p>
-            <!-- mask cards in computer hand -->
-            <div class="rounded-lg flex flex-wrap gap-2">
-                {% for each_card in session["computer_hand"] %}
-                    {% if loop.index0 == 0 %}
-                        <div class="w-24 h-32 mb-1 rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-800 shadow-sm shadow-yellow-800">
-                        </div>
-                    {% else %}
-                        <div class="w-24 h-32 mb-1 -ms-20 rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-800 shadow-sm shadow-yellow-800">
-                        </div>
-                    {% endif %}
-                {% endfor %}   
-            </div>
-            <!-- troubleshooting -->
-            <!-- <div class="flex flex-wrap gap-1 text-lg text-center font-bold rounded-lg">
-                {% for each_card in session["computer_hand"] %}
-                    {% if each_card.suit == "♦" %}
-                        <div class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg py-8 shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </div>
-                    {% elif each_card.suit == "♥" %}
-                        <div class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg py-8 shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-rose-600 text-2xl">{{each_card.suit}}</span> </div>
-                    {% elif each_card.suit == "♣" %}
-                        <div class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg py-8 shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-gray-500 text-2xl">{{each_card.suit}}</span> </div>
-                    {% else %}
-                        <div class="w-24 h-32 mb-1 shadow-xl shadow-gray-800 rounded-lg py-8 shadow-lg bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
-                    {% endif %}
-                {% endfor %}
-            </div> -->
-        {% endif %}
-        {% if "computer_pairs" in session %}
-            {% if (session["computer_pairs"]|length / 2)|int == 1  %}
-                <p class="text-lg font-bold mt-6">Computer's collected pairs ({{(session["computer_pairs"]|length / 2)|int}} pair):</p>
-            {% else %}
-                <p class="text-lg font-bold mt-6">Computer's collected pairs ({{(session["computer_pairs"]|length / 2)|int}} pairs):</p>
-            {% endif %}
-            <!-- masked cards -->
-            <!-- <div class="rounded-lg flex gap-1">
-                {% for each_card in session["computer_pairs"] %}
-                    {% if loop.index0 == 0 %}
-                        <div class="w-24 h-32 mb-1 rounded-lg bg-gradient-to-r from-sky-500 to-sky-800 shadow-sm shadow-sky-800">
-                        </div>
-                    {% else %}
-                        <div class="w-24 h-32 mb-1 -ms-20 rounded-lg bg-gradient-to-r from-sky-500 to-sky-800 shadow-sm shadow-sky-800">
-                        </div>
-                    {% endif %}
-                {% endfor %}   
-            </div> -->
-            <div class="flex flex-wrap gap-1 text-lg text-center font-bold">
-                {% for each_card in session["computer_pairs"] %}
-                    {% if loop.index0 == 0 or loop.index0 % 2 == 0 %}
-                        <div class="w-24 h-32 mb-1 rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-800 shadow-sm shadow-yellow-800"></div>
-                    {% else %}
-                        {% if each_card.suit == "♦" %}
-                            <div class="w-24 h-32 mb-1 -ms-24 mt-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </div>
-                        {% elif each_card.suit == "♥" %}
-                            <div class="w-24 h-32 mb-1 -ms-24 mt-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-rose-600 text-2xl">{{each_card.suit}}</span> </div>
-                        {% elif each_card.suit == "♣" %}
-                            <div class="w-24 h-32 mb-1 -ms-24 mt-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-gray-500 text-2xl">{{each_card.suit}}</span> </div>
-                        {% else %}
-                            <div class="w-24 h-32 mb-1 -ms-24 mt-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
-                        {% endif %}
-                    {% endif %}
-                    <!-- troubleshooting -->
-                    <!-- {% if each_card.suit == "♦" %}
-                        <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </div>
-                    {% elif each_card.suit == "♥" %}
-                        <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-rose-600 text-2xl">{{each_card.suit}}</span> </div>
-                    {% elif each_card.suit == "♣" %}
-                        <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-gray-500 text-2xl">{{each_card.suit}}</span> </div>
-                    {% else %}
-                        <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
-                    {% endif %} -->
-                {% endfor %}
-            </div>
-        {% endif %}
-    </div>
+        {% endif%}
+    </section>
 
-    <!-- remaining deck -->
-    <div class="mt-14">
-        {% if "deck" in session %}
-            <p class="text-lg font-bold">Deck ({{session["deck"]|length}} cards):</p>
-            <div class="rounded-lg flex flex-wrap gap-2">
-                {% for each_card in session["deck"] %}
-                    {% if loop.index0 == 0 %}
-                        <div class="w-24 h-32 mb-1 rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-800 shadow-sm shadow-yellow-800">
-                        </div>
-                    {% else %}
-                        <div class="w-24 h-32 mb-1 -ms-20 rounded-lg bg-gradient-to-r from-yellow-500 to-yellow-800 shadow-sm shadow-yellow-800">
-                        </div>
-                    {% endif %}
-                {% endfor %}   
-            </div>
-            <!-- troubleshooting -->
-            <!-- <div class="flex flex-wrap gap-1 text-lg text-center font-bold rounded-lg">
-                {% for each_card in session["deck"] %}
-                    {% if each_card.suit == "♦" %}
-                        <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-red-700 text-2xl">{{each_card.suit}}</span> </div>
-                    {% elif each_card.suit == "♥" %}
-                        <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-rose-600 text-2xl">{{each_card.suit}}</span> </div>
-                    {% elif each_card.suit == "♣" %}
-                        <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-gray-500 text-2xl">{{each_card.suit}}</span> </div>
-                    {% else %}
-                        <div class="w-24 h-32 mb-1 rounded-lg py-8 shadow-xl shadow-gray-800 bg-gray-300 text-gray-900"> {{each_card.face_value}} <br><span class="text-zinc-700 text-2xl">{{each_card.suit}}</span> </div>
-                    {% endif %}
-                {% endfor %}
-            </div> -->
-        {% endif %}
-    </div>
+    
 
 
     <!-- <script src="../static/js/script_refresh.js"></script> -->
