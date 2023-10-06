@@ -158,7 +158,10 @@ class Game:
     def computer_turn(computer_hand, computer_pairs, player_hand, deck):
         flag = True
         while (flag == True):
-            #check for pairs in computer hand
+            # game over check
+            
+
+            # check for pairs in computer hand
             print(f'In while loop for computer turn method.')
             print(f'Checking for pairs.')
             pairs_check_dict = Game.check_for_computer_pairs(computer_hand)
@@ -212,4 +215,16 @@ class Game:
             "deck": deck
         }
         return result_game_dict
+
+
+    @staticmethod
+    def game_over_check(hand):
+        game_over = False
+        if len(hand) == 0:
+            print(f'Game over, hand empty')
+            session["game_over"] = True
+            game_over = True
+
+        return game_over
+
 
