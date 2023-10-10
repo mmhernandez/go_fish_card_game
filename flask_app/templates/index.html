@@ -56,7 +56,14 @@
                         <a href="/start_game">New Game</a>
                     </button>
                 </div>
-                <p class="text-center">Test {{session}}</p>
+                <p class="text-center">Game Over</p>
+                {% if game_over["winner"] == 'player' %}
+                    <p class="text-center">You win!</p>
+                {% else %}
+                    <p class="text-center">The computer wins this round. Better luck next time!</p>
+                {% endif %}
+                <p class="text-center">Your pairs collected: {{game_over["count_player_pairs"]}}</p>
+                <p class="text-center">Computer pairs collected: {{game_over["count_computer_pairs"]}}</p>
             </div>
         {% else %}
             <!-- player -->

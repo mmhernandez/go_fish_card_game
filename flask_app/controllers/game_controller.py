@@ -75,9 +75,22 @@ def lay_down_pairs():
         session["player_pairs"] = updated_player_game_dict["pairs"]
     
     # game over check
-    game.Game.game_over_check(session["computer_hand"]) 
-    game.Game.game_over_check(session["player_hand"])
+    if "player_pairs" in session and "computer_pairs" in session:
+        game_check_result = game.Game.game_over_check(session["player_hand"], session["player_pairs"], session["computer_hand"], session["computer_pairs"])
+    elif "player_pairs" in session and not "computer_pairs" in session:
+        computer_pairs = []
+        game_check_result = game.Game.game_over_check(session["player_hand"], session["player_pairs"], session["computer_hand"], computer_pairs)
+    elif not "player_pairs" in session and "computer_pairs" in session:
+        player_pairs = []
+        game_check_result = game.Game.game_over_check(session["player_hand"], player_pairs , session["computer_hand"], session["computer_pairs"])
+    else:
+        player_pairs = []
+        computer_pairs = []
+        game_check_result = game.Game.game_over_check(session["player_hand"], player_pairs, session["computer_hand"], computer_pairs)
 
+    if game_check_result["game_over_flag"]:
+        return render_template("index.html", game_over=game_check_result)
+    
     hasPairs = game.Game.check_for_pairs(updated_player_game_dict["hand"])
     return render_template("index.html", hasPairs=hasPairs)
 
@@ -124,6 +137,23 @@ def card_request(point_value):
         session["deck"] = computer_turn_result["deck"]
         if len(computer_pairs) > 0:
             session["computer_pairs"] = computer_turn_result["computer_pairs"]
+
+        # game over check
+        if "player_pairs" in session and "computer_pairs" in session:
+            game_check_result = game.Game.game_over_check(session["player_hand"], session["player_pairs"], session["computer_hand"], session["computer_pairs"])
+        elif "player_pairs" in session and not "computer_pairs" in session:
+            computer_pairs = []
+            game_check_result = game.Game.game_over_check(session["player_hand"], session["player_pairs"], session["computer_hand"], computer_pairs)
+        elif not "player_pairs" in session and "computer_pairs" in session:
+            player_pairs = []
+            game_check_result = game.Game.game_over_check(session["player_hand"], player_pairs , session["computer_hand"], session["computer_pairs"])
+        else:
+            player_pairs = []
+            computer_pairs = []
+            game_check_result = game.Game.game_over_check(session["player_hand"], player_pairs, session["computer_hand"], computer_pairs)
+
+        if game_check_result["game_over_flag"]:
+            return render_template("index.html", game_over=game_check_result)
 
         hasPairs = game.Game.check_for_pairs(computer_turn_result["player_hand"])
 

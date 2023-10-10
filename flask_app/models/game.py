@@ -162,11 +162,10 @@ class Game:
     @staticmethod
     def computer_turn(computer_hand, computer_pairs, player_hand, deck):
         computer_turn_flag = True
-        while (computer_turn_flag == True):
+        while computer_turn_flag == True:
             # game over check
-            computer_game_over = Game.game_over_check(computer_hand) 
-            player_game_over = Game.game_over_check(player_hand)
-            if computer_game_over or player_game_over:
+            game_check = Game.game_over_check(player_hand, session["player_pairs"], computer_hand, computer_pairs)
+            if game_check["game_over_flag"]:
                 computer_turn_flag = False
                 break
             else:
@@ -227,13 +226,36 @@ class Game:
 
 
     @staticmethod
-    def game_over_check(hand):
-        game_over = False
-        if len(hand) == 0:
-            print(f'Game over, hand empty')
-            session["game_over"] = True
-            game_over = True
+    def game_over_check(player_hand, player_pairs, computer_hand, computer_pairs):
+        game_over_flag = False
+        winner = ''
+        count_player_pairs = 0
+        count_computer_pairs = 0
 
-        return game_over
+        if len(player_hand) == 0 or len(computer_hand) == 0:
+            session["game_over"] = True
+            game_over_flag = True
+
+            if len(player_pairs) > 0:
+                count_player_pairs = int(len(player_pairs) / 2)
+
+            if len(computer_pairs) > 0:
+                count_computer_pairs = int(len(computer_pairs) / 2)
+
+            if len(player_hand) == 0:
+                winner = 'player'
+                print(f'Game over, player hand empty')
+            else:
+                winner = 'computer'
+                print(f'Game over, computer hand empty')
+
+        result = {
+            "game_over_flag": game_over_flag,
+            "winner": winner,
+            "count_player_pairs": count_player_pairs,
+            "count_computer_pairs": count_computer_pairs
+        }
+
+        return result
 
 
