@@ -121,11 +121,16 @@ class Game:
 
     @staticmethod
     def draw_from_deck(hand, deck):
-        while len(hand) < 7 and (len(deck) > 7-len(hand)):
-            rand_card = random.choice(deck)
-            rand_card_index = deck.index(rand_card)
-            deck.pop(rand_card_index)
-            hand.append(rand_card)
+        is_deck_empty = False
+        while len(hand) < 7 and is_deck_empty == False:
+            if len(deck) == 0:
+                is_deck_empty = True
+                break
+            else:
+                rand_card = random.choice(deck)
+                rand_card_index = deck.index(rand_card)
+                deck.pop(rand_card_index)
+                hand.append(rand_card)
 
         updated_cards = {
             "hand": hand,
@@ -156,8 +161,8 @@ class Game:
 
     @staticmethod
     def computer_turn(computer_hand, computer_pairs, player_hand, deck):
-        flag = True
-        while (flag == True):
+        computer_turn_flag = True
+        while (computer_turn_flag == True):
             # game over check
             
 
@@ -206,7 +211,7 @@ class Game:
                 # if no match found, set flag to false to end computer turn
                 else:
                     print(f'No match found in player hand')
-                    flag = False
+                    computer_turn_flag = False
         
         result_game_dict = {
             "computer_hand": computer_hand,
