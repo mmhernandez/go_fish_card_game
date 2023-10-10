@@ -10,6 +10,9 @@ def root():
 
 @app.route("/start_game")
 def start_game():
+    if "game_over" in session:
+        session.clear()
+
     game_dict = game.Game.deal()    
     session["player_hand"] = game_dict["player_hand"]
     session["computer_hand"] = game_dict["computer_hand"]
@@ -71,6 +74,10 @@ def lay_down_pairs():
     else:
         session["player_pairs"] = updated_player_game_dict["pairs"]
     
+    # game over check
+    game.Game.game_over_check(session["computer_hand"]) 
+    game.Game.game_over_check(session["player_hand"])
+
     hasPairs = game.Game.check_for_pairs(updated_player_game_dict["hand"])
     return render_template("index.html", hasPairs=hasPairs)
 

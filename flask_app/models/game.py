@@ -164,54 +164,58 @@ class Game:
         computer_turn_flag = True
         while (computer_turn_flag == True):
             # game over check
-            
-
-            # check for pairs in computer hand
-            print(f'In while loop for computer turn method.')
-            print(f'Checking for pairs.')
-            pairs_check_dict = Game.check_for_computer_pairs(computer_hand)
-            # if there are pairs, lay them down
-            if(pairs_check_dict["hasPairs"]):
-                print(f'Pair found in computer hand. Pairs: {pairs_check_dict["pairs_list"]}')
-                print(f'Laying down pair.')
-                updated_cards_dict = Game.lay_down_pairs(computer_hand, pairs_check_dict["pairs_list"], deck)
-                computer_hand = updated_cards_dict["hand"]
-                deck = updated_cards_dict["deck"]
-                computer_pairs.extend(updated_cards_dict["pairs"])
-
-                print(f'Computer hand size: {len(computer_hand)}.  Drawing from the deck.')
-                computer_draw_dict = Game.draw_from_deck(computer_hand, deck)
-                computer_hand = computer_draw_dict["hand"]
-                deck = computer_draw_dict["deck"]
-                print(f'Updated computer hand size: {len(computer_hand)}')
-
-            # if no pairs, check player hand for possible pair
+            computer_game_over = Game.game_over_check(computer_hand) 
+            player_game_over = Game.game_over_check(player_hand)
+            if computer_game_over or player_game_over:
+                computer_turn_flag = False
+                break
             else:
-                print(f'No pair in computer hand.')
-                # pick random card in computer's hand
-                rand = random.randint(0,len(computer_hand)-1)
-                print(f'Random index selected = {rand}')
-                
-                rand_point_value = computer_hand[rand]
-                print(f'Point value of random card (rand_point_value) = {rand_point_value}')
-
-                # check if a match is available in the player hand
-                result = Game.check_hand_for_card(computer_hand, player_hand, rand_point_value["point_value"], deck)
-                # if match found, take card from player, lay down pairs, and draw from deck
-                if result["hasMatch"]:
-                    print(f'Match found in player hand for random card selected')
+                # check for pairs in computer hand
+                print(f'In while loop for computer turn method.')
+                print(f'Checking for pairs.')
+                pairs_check_dict = Game.check_for_computer_pairs(computer_hand)
+                # if there are pairs, lay them down
+                if(pairs_check_dict["hasPairs"]):
+                    print(f'Pair found in computer hand. Pairs: {pairs_check_dict["pairs_list"]}')
+                    print(f'Laying down pair.')
+                    updated_cards_dict = Game.lay_down_pairs(computer_hand, pairs_check_dict["pairs_list"], deck)
+                    computer_hand = updated_cards_dict["hand"]
+                    deck = updated_cards_dict["deck"]
+                    computer_pairs.extend(updated_cards_dict["pairs"])
 
                     print(f'Computer hand size: {len(computer_hand)}.  Drawing from the deck.')
-                    if len(computer_hand) < 7:
-                        updated_computer_hand_dict = Game.draw_from_deck(computer_hand, deck)
-                        computer_hand = updated_computer_hand_dict["hand"]
-                        deck = updated_computer_hand_dict["deck"]
-                        print(f'Updated computer hand size: {len(computer_hand)}')
+                    computer_draw_dict = Game.draw_from_deck(computer_hand, deck)
+                    computer_hand = computer_draw_dict["hand"]
+                    deck = computer_draw_dict["deck"]
+                    print(f'Updated computer hand size: {len(computer_hand)}')
 
-                # if no match found, set flag to false to end computer turn
+                # if no pairs, check player hand for possible pair
                 else:
-                    print(f'No match found in player hand')
-                    computer_turn_flag = False
+                    print(f'No pair in computer hand.')
+                    # pick random card in computer's hand
+                    rand = random.randint(0,len(computer_hand)-1)
+                    print(f'Random index selected = {rand}')
+                    
+                    rand_point_value = computer_hand[rand]
+                    print(f'Point value of random card (rand_point_value) = {rand_point_value}')
+
+                    # check if a match is available in the player hand
+                    result = Game.check_hand_for_card(computer_hand, player_hand, rand_point_value["point_value"], deck)
+                    # if match found, take card from player, lay down pairs, and draw from deck
+                    if result["hasMatch"]:
+                        print(f'Match found in player hand for random card selected')
+
+                        print(f'Computer hand size: {len(computer_hand)}.  Drawing from the deck.')
+                        if len(computer_hand) < 7:
+                            updated_computer_hand_dict = Game.draw_from_deck(computer_hand, deck)
+                            computer_hand = updated_computer_hand_dict["hand"]
+                            deck = updated_computer_hand_dict["deck"]
+                            print(f'Updated computer hand size: {len(computer_hand)}')
+
+                    # if no match found, set flag to false to end computer turn
+                    else:
+                        print(f'No match found in player hand')
+                        computer_turn_flag = False
         
         result_game_dict = {
             "computer_hand": computer_hand,
