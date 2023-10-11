@@ -51,19 +51,22 @@
     <main>
         {% if "game_over" in session %}
             <div class="mt-3 flex justify-center flex-col items-center">
-                <div>
-                    <button class="rounded bg-red-500 hover:bg-red-600 my-2 p-2">
-                        <a href="/start_game">New Game</a>
-                    </button>
-                </div>
-                <p class="text-center">Game Over</p>
-                {% if game_over["winner"] == 'player' %}
-                    <p class="text-center">You win!</p>
+                <button class="rounded bg-red-500 hover:bg-red-600 mt-2 mb-10 p-2">
+                    <a href="/start_game">New Game</a>
+                </button>
+            </div>
+            {% if game_over["winner"] == 'player' %}
+            <div class="mt-3 flex justify-center flex-col items-center custom-border" id="winner">
+                    <p class="text-center text-2xl font-bold mb-10">Game Over</p>
+                    <p class="text-center text-8xl mb-10">You win!</p>
+                    <p class="text-center">Your pairs collected: <span class="font-bold">{{game_over["count_player_pairs"]}}</span></p>
+                    <p class="text-center">Computer pairs collected: <span class="font-bold">{{game_over["count_computer_pairs"]}}</span></p>
                 {% else %}
+                    <p class="text-center text-2xl font-bold mb-10">Game Over</p>
                     <p class="text-center">The computer wins this round. Better luck next time!</p>
+                    <p class="text-center">Your pairs collected: {{game_over["count_player_pairs"]}}</p>
+                    <p class="text-center">Computer pairs collected: {{game_over["count_computer_pairs"]}}</p>
                 {% endif %}
-                <p class="text-center">Your pairs collected: {{game_over["count_player_pairs"]}}</p>
-                <p class="text-center">Computer pairs collected: {{game_over["count_computer_pairs"]}}</p>
             </div>
         {% else %}
             <!-- player -->
@@ -427,9 +430,6 @@
     </section>
 
     
-
-
-    <!-- <script src="../static/js/script_refresh.js"></script> -->
     <script src="../static/js/script_modal.js"></script>
 </body>
 </html>

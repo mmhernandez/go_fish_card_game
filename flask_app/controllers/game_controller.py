@@ -25,6 +25,9 @@ def start_game():
 
 @app.route("/pairs", methods=["POST"])
 def lay_down_pairs():
+    if "game_over" in session:
+        session.clear()
+
     # confirm player is attempting to lay down a pair (2 cards only)
     if len(request.form) != 2:
         message = "Select a pair (2) of cards with the same face value."
